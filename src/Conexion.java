@@ -36,7 +36,7 @@ public class Conexion {
 					update(con);
 					
 				}
-				public void retrieveDataFromSelect(String table, Connection con, int cols) {
+				public Object[][] retrieveDataFromSelect(String table, Connection con, int cols) {
 					String query = "SELECT * FROM " + table;
 					Object[][] datosT = new Object[10][4];
 					String str ="";
@@ -60,6 +60,7 @@ public class Conexion {
 						e.printStackTrace();
 					}
 					System.out.println(str);
+					return datosT;
 				}
 				static void display( Connection con) {
 					//SELECT * FROM bd_pd_1.peces; tiene 4 atributos

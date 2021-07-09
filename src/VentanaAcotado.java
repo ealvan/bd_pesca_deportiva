@@ -257,9 +257,14 @@ public class VentanaAcotado {
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//recuperar datos
-				conection.retrieveDataFromSelect("peces", conection.getConn(), 4);
+				Object[][] data = conection.retrieveDataFromSelect("peces", conection.getConn(), 4);
 				//luego ponerlos en la tabla
-				
+				Object[] columns = {
+						"Id","Tipo de Pez", "Puede Cap","Descripcion"
+				};
+				DefaultTableModel dataModel = new DefaultTableModel(data, columns);
+		        final JTable table = new JTable(dataModel);
+				table_1 = new JTable(dataModel);
 				 
 			}
 		});
