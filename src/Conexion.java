@@ -2,7 +2,7 @@ import java.sql.*;
 public class Conexion {
 				// Definir la ruta de la base de datos
 				// establenciendo la time zone UTC
-				private String dbUrl = "jdbc:mysql://localhost/bd_pd_1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+				private String dbUrl = "jdbc:mysql://localhost/bd_pd_1?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 				 // Definir el nombre de usuario de la base de datos
 				private String dbUser = "root";
 				 // Definir la contraseña de la base de datos
@@ -35,6 +35,19 @@ public class Conexion {
 					//insert(con);
 					update(con);
 					
+				}
+				public ResultSet retrieveDataFromSelect(String table, Connection con, int cols) {
+					String query = "SELECT * FROM " + table;
+					String data[][] = new String[cols][15];
+					ResultSet rs = null;
+					try {
+						Statement stmt = con.createStatement();  
+						rs = stmt.executeQuery(query);  
+						con.close();
+					}catch(Exception e) {
+						System.out.println("Error unexpectly");
+					}
+					return rs;
 				}
 				static void display( Connection con) {
 					//SELECT * FROM bd_pd_1.peces; tiene 4 atributos

@@ -11,6 +11,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
@@ -22,7 +25,23 @@ public class VentanaAcotado {
 	private JTextField textField_1;
 	private JTable table;
 	private JTable table_1;
-
+	private Conexion conection = new Conexion();
+	JButton btnNewButton = new JButton("Adicionar");
+	
+	JButton btnModificar = new JButton("Modificar");
+	
+	JButton btnEliminar = new JButton("Eliminar");
+	
+	JButton btnCancelar = new JButton("Cancelar");
+	
+	JButton btnInactivar = new JButton("Inactivar");
+	
+	
+	JButton btnReactivar = new JButton("Reactivar");
+	
+	JButton btnActualizar = new JButton("Actualizar");
+	
+	JButton btnSalir = new JButton("Salir");
 	/**
 	 * Launch the application.
 	 */
@@ -69,37 +88,11 @@ public class VentanaAcotado {
 		
 		JPanel panel_1 = new JPanel();
 		
-		JFormattedTextField frmtdtxtfldTabla = new JFormattedTextField();
-		frmtdtxtfldTabla.setText("Tabla");
-		frmtdtxtfldTabla.setEditable(false);
+		JFormattedTextField formatTxtTable = new JFormattedTextField();
+		formatTxtTable.setText("Tabla");
+		formatTxtTable.setEditable(false);
 		
-		JButton btnNewButton = new JButton("Adicionar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		
-		JButton btnModificar = new JButton("Modificar");
-		
-		JButton btnEliminar = new JButton("Eliminar");
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		
-		JButton btnInactivar = new JButton("Inactivar");
-		btnInactivar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		JButton btnReactivar = new JButton("Reactivar");
-		
-		JButton btnActualizar = new JButton("Actualizar");
-		btnActualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		JButton btnSalir = new JButton("Salir");
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -111,7 +104,7 @@ public class VentanaAcotado {
 					.addGap(25))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(frmtdtxtfldTabla, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+					.addComponent(formatTxtTable, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(524, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
@@ -162,7 +155,7 @@ public class VentanaAcotado {
 							.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(6)
-							.addComponent(frmtdtxtfldTabla, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(formatTxtTable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -182,11 +175,12 @@ public class VentanaAcotado {
 		
 		
 		String[] columnNames = {"Nombre", "Años", "Apto",};
-		
+		//aqui vienen los datos
         Object[][] datos = {
             {"Juan", 25, false},
             {"Sonia", 33, true},
-            {"Pedro", 42, false}};
+            {"Pedro", 42, false}
+        };
 
         DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
         final JTable table = new JTable(dtm);
@@ -208,13 +202,13 @@ public class VentanaAcotado {
         
 		panel_1.add(scrollPane,BorderLayout.CENTER);
 		
-		JFormattedTextField frmtdtxtfldCodigo = new JFormattedTextField();
-		frmtdtxtfldCodigo.setEditable(false);
-		frmtdtxtfldCodigo.setText("Codigo:");
+		JFormattedTextField formatTextField = new JFormattedTextField();
+		formatTextField.setEditable(false);
+		formatTextField.setText("Codigo:");
 		
-		JFormattedTextField frmtdtxtfldDescripcion = new JFormattedTextField();
-		frmtdtxtfldDescripcion.setText("Descripcion:");
-		frmtdtxtfldDescripcion.setEditable(false);
+		JFormattedTextField formatTextFieldDesc = new JFormattedTextField();
+		formatTextFieldDesc.setText("Descripcion:");
+		formatTextFieldDesc.setEditable(false);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
@@ -228,11 +222,11 @@ public class VentanaAcotado {
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(frmtdtxtfldCodigo, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+							.addComponent(formatTextField, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(frmtdtxtfldDescripcion, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+							.addComponent(formatTextFieldDesc, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -242,15 +236,62 @@ public class VentanaAcotado {
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(frmtdtxtfldCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(formatTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(frmtdtxtfldDescripcion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(formatTextFieldDesc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(38, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		frame.getContentPane().setLayout(groupLayout);
+		eventos();
+	}
+	private void eventos() {
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//recuperar datos
+				ResultSet data = conection.retrieveDataFromSelect("peces", conection.getConn(), 4);
+				//luego ponerlos en la tabla
+				Object[][] datosT = new Object[10][4];
+				String str ="";
+				try {
+					int c =0;
+					while(data.next()) {
+						for(int j =0; j <= 9; j++) {		
+							Object[] row = new Object[4];
+							for(int i =1; i <= 4; i++) {
+								if(i == 1) {
+									row[i-1] = data.getInt(i);
+									str += data.getInt(i)+"   ";
+								}else {
+									row[i-1] = data.getString(i);
+									str  += data.getString(i)+ "  ";
+								}
+							}
+							str+="\n";
+							datosT[j] = row;
+						}
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				System.out.println(str);
+			}
+		});
+		btnInactivar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Hola");
+				
+				Connection con = conection.getConn();
+				Conexion.display(con);
+			}
+		});
 	}
 }
