@@ -36,18 +36,30 @@ public class Conexion {
 					update(con);
 					
 				}
-				public ResultSet retrieveDataFromSelect(String table, Connection con, int cols) {
+				public void retrieveDataFromSelect(String table, Connection con, int cols) {
 					String query = "SELECT * FROM " + table;
-					String data[][] = new String[cols][15];
-					ResultSet rs = null;
+					Object[][] datosT = new Object[10][4];
+					String str ="";
 					try {
 						Statement stmt = con.createStatement();  
-						rs = stmt.executeQuery(query);  
+						ResultSet rs = stmt.executeQuery(query);  
+						int r = 0;
+						while(rs.next()) {
+							Object[] row = {
+								rs.getInt(1),
+								rs.getString(2),
+								rs.getString(3),
+								rs.getString(4),
+							};
+							str += rs.getInt(1)+"  "+ rs.getString(2)+ "  "+rs.getString(3)+"  "+ rs.getString(4);
+							str += "\n";
+							datosT[r] = row;
+						}
 						con.close();
 					}catch(Exception e) {
-						System.out.println("Error unexpectly");
+						e.printStackTrace();
 					}
-					return rs;
+					System.out.println(str);
 				}
 				static void display( Connection con) {
 					//SELECT * FROM bd_pd_1.peces; tiene 4 atributos

@@ -257,32 +257,10 @@ public class VentanaAcotado {
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//recuperar datos
-				ResultSet data = conection.retrieveDataFromSelect("peces", conection.getConn(), 4);
+				conection.retrieveDataFromSelect("peces", conection.getConn(), 4);
 				//luego ponerlos en la tabla
-				Object[][] datosT = new Object[10][4];
-				String str ="";
-				try {
-					int c =0;
-					while(data.next()) {
-						for(int j =0; j <= 9; j++) {		
-							Object[] row = new Object[4];
-							for(int i =1; i <= 4; i++) {
-								if(i == 1) {
-									row[i-1] = data.getInt(i);
-									str += data.getInt(i)+"   ";
-								}else {
-									row[i-1] = data.getString(i);
-									str  += data.getString(i)+ "  ";
-								}
-							}
-							str+="\n";
-							datosT[j] = row;
-						}
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				System.out.println(str);
+				
+				 
 			}
 		});
 		btnInactivar.addActionListener(new ActionListener() {
