@@ -23,8 +23,10 @@ public class VentanaAcotado {
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTable table;
+	private JTable tableData;
 	private JTable table_1;
+	//final JTable table ;
+	DefaultTableModel dtm;
 	private Conexion conection = new Conexion();
 	JButton btnNewButton = new JButton("Adicionar");
 	
@@ -84,7 +86,7 @@ public class VentanaAcotado {
 		frmtdtxtfldRefistro.setEditable(false);
 		frmtdtxtfldRefistro.setText("Registro");
 		
-		table = new JTable();
+		tableData = new JTable();
 		
 		JPanel panel_1 = new JPanel();
 		
@@ -100,7 +102,7 @@ public class VentanaAcotado {
 					.addContainerGap()
 					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
 					.addGap(54)
-					.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
+					.addComponent(tableData, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
 					.addGap(25))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
@@ -152,7 +154,7 @@ public class VentanaAcotado {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(101)
-							.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tableData, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(6)
 							.addComponent(formatTxtTable, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -178,15 +180,12 @@ public class VentanaAcotado {
 		//aqui vienen los datos
         Object[][] datos = {
             {"Juan", 25, false},
-            {"Sonia", 33, true},
-            {"Pedro", 42, false}
+            
         };
 
-        DefaultTableModel dtm = new DefaultTableModel(datos, columnNames);
-        final JTable table = new JTable(dtm);
+        dtm = new DefaultTableModel(datos, columnNames);
+        tableData = new JTable(dtm);
         
-        
-		table_1 = new JTable(dtm);
 		
 		String[] columnaNueva1 = {"vago", "diestro", "normal",};
         dtm.addColumn("Tipo", columnaNueva1);
@@ -198,7 +197,7 @@ public class VentanaAcotado {
         // Modificar celda especifica
         dtm.setValueAt("XXX", 3, 3);
 		
-        JScrollPane scrollPane = new JScrollPane(table);
+        JScrollPane scrollPane = new JScrollPane(tableData);
         
 		panel_1.add(scrollPane,BorderLayout.CENTER);
 		
@@ -262,9 +261,26 @@ public class VentanaAcotado {
 				Object[] columns = {
 						"Id","Tipo de Pez", "Puede Cap","Descripcion"
 				};
-				DefaultTableModel dataModel = new DefaultTableModel(data, columns);
-		        final JTable table = new JTable(dataModel);
-				table_1 = new JTable(dataModel);
+				dtm.setColumnIdentifiers(columns);
+				//dtm.removeRow(0);
+				
+				
+				Object[] row = {
+						data[0][0],
+						data[0][1],
+						data[0][2],
+						data[0][3],
+				};
+				dtm.addRow(row); 
+				Object[] row1 = {
+						data[1][0],
+						data[1][1],
+						data[1][2],
+						data[1][3],
+				};
+				dtm.addRow(row1); 
+		        tableData = new JTable(dtm);
+				
 				 
 			}
 		});
