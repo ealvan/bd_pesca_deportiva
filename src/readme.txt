@@ -1,0 +1,1 @@
+Ventana_Eventos.txt es el archivo funcional
