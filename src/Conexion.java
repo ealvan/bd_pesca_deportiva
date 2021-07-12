@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 public class Conexion {
 				// Definir la ruta de la base de datos
 				// establenciendo la time zone UTC
@@ -31,10 +32,7 @@ public class Conexion {
 				public static void main(String[] args) {
 					Conexion a = new Conexion();
 					Connection con = a.getConn();
-					display(con);
-					//insert(con);
-					//update(con);
-					
+					getColumns("peces",con);
 				}
 				public Object[][] retrieveDataFromSelect(String table, Connection con, int cols) {
 					String query = "SELECT * FROM " + table;
@@ -128,8 +126,27 @@ public class Conexion {
 						e.printStackTrace();
 					}
 				}
-			
-				
-				
+				static ArrayList<String> getColumns(String tableName, Connection con) {
+					if(tableName.isEmpty()) {
+						tableName="peces";
+					}
+					ArrayList<String> columns = new ArrayList<String>();
+					
+					String query = "SHOW COLUMNS FROM " + tableName+";";
+					
+					try {
+						Statement stmt = con.createStatement();  
+						ResultSet rs = stmt.executeQuery(query);
+						while(rs.next()) {
+							columns.add(rs.getString(1));
+						}
+						
+						
+					}catch(Exception e) {
+						e.printStackTrace();
+						return null;
+					}
+					return columns;
+				}
 				
 }

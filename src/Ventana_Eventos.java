@@ -14,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import net.miginfocom.swing.MigLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
@@ -386,7 +385,6 @@ public class Ventana_Eventos {
 	private void eventos() {
 		adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				String id = textField.getText();
 				String nombre = textField_1.getText();
 				String anio = textField_2.getText();
@@ -425,8 +423,6 @@ public class Ventana_Eventos {
 				
 				try {
 					
-					
-					
 					String columns = "(EveCod, EveNom, EveFecAnio, EveFecMes, EveFecDia, EvePre, EveNroPar , EveCar, EveLugCod,EveEstReg )";
 					
 					String query = " insert into eventos "+ columns + "\n values (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
@@ -440,15 +436,13 @@ public class Ventana_Eventos {
 				    preparedStmt.setInt    	(7, Integer.parseInt(numero_participantes));//EveNroPar
 				    preparedStmt.setString  (8, auxC);//EveCar
 				    preparedStmt.setInt    	(9, Integer.parseInt(id_lugar));//EveLugCod
-				    preparedStmt.setString  (10, auxS);//EveEstReg
-				      
+				    preparedStmt.setString  (10, auxS);//EveEstReg 
 					preparedStmt.execute();
 					
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, f + "Error en al añadir");
 					// TODO: handle exception
 				}
-				
 				
 				textField.setText("");
 				textField_1.setText("");
@@ -505,8 +499,6 @@ public class Ventana_Eventos {
 					}
 					
 					System.out.println("Id encontrado:  " + id + " " + nom + " " + anio + " " + mes + " " + dia + " " + precio + " " + participantes + " " + caracter + " " + lugar + " " + estado) ;
-					
-					
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
@@ -623,7 +615,6 @@ public class Ventana_Eventos {
 int fila = tableData.getSelectedRow();
 				
 				if (fila != -1) {
-					//Codigo Funcional
 					
 					String columns = "(EveCod, EveNom, EveFecAnio, EveFecMes, EveFecDia, EvePre, EveNroPar , EveCar, EveLugCod,EveEstReg )";
 					
