@@ -2,7 +2,7 @@ import java.sql.*;
 public class Conexion {
 				// Definir la ruta de la base de datos
 				// establenciendo la time zone UTC
-				private String dbUrl = "jdbc:mysql://localhost/bd_pd_1?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+				private String dbUrl = "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 				 // Definir el nombre de usuario de la base de datos
 				private String dbUser = "root";
 				 // Definir la contraseña de la base de datos
@@ -31,9 +31,9 @@ public class Conexion {
 				public static void main(String[] args) {
 					Conexion a = new Conexion();
 					Connection con = a.getConn();
-					//display(con);
+					display(con);
 					//insert(con);
-					update(con);
+					//update(con);
 					
 				}
 				public Object[][] retrieveDataFromSelect(String table, Connection con, int cols) {

@@ -272,13 +272,6 @@ public class VentanaAcotado {
 						data[0][3],
 				};
 				dtm.addRow(row); 
-				Object[] row1 = {
-						data[1][0],
-						data[1][1],
-						data[1][2],
-						data[1][3],
-				};
-				dtm.addRow(row1); 
 		        tableData = new JTable(dtm);
 				
 				 
