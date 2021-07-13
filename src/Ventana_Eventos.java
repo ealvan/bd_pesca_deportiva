@@ -25,6 +25,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class Ventana_Eventos {
@@ -64,12 +65,28 @@ public class Ventana_Eventos {
 	
 	
 
-	/**
+	/*
 	 * Launch the application.
 	 */
 	
 	public void mostrarDatosClientes() {
 		dtm = new DefaultTableModel();
+		ArrayList<String[]> data = new ArrayList<String[]>();
+		data = Conexion.getData("eventos", con);
+		for(String col: data.get(0)) {
+			dtm.addColumn(col);
+		}
+		
+		for(int q =1; q < data.size(); q++) {
+			String row[] = new String[data.get(q).length];
+			for(int u =0; u < data.get(q).length; u++) {
+				row[u] = data.get(q)[u];
+			}
+			dtm.addRow(row);
+		}
+		tableData = new JTable(dtm);
+		/*
+		 dtm = new DefaultTableModel();
 		dtm.addColumn("ID");
 		dtm.addColumn("Nombre");
 		dtm.addColumn("Año");
@@ -106,6 +123,7 @@ public class Ventana_Eventos {
 			JOptionPane.showMessageDialog(null, e + "Error en la consulta");
 			// TODO: handle exception
 		}
+		 */
 		
 	}
 	
