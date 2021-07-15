@@ -9,6 +9,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -63,6 +65,8 @@ public class Ventana_Eventos {
 	private JComboBox comboBox; 
 	private JComboBox comboBox_1;
 	
+	//pop up, ventan emergente
+	pop popup;
 	
 
 	/*
@@ -474,13 +478,45 @@ public class Ventana_Eventos {
 				
 			}
 		});
-		
+		tableData.getSelectionModel().addListSelectionListener((ListSelectionListener) new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            // do some actions here, for example
+	            // print first column value from selected row
+	        	//System.out.println("Prueba del row");
+	            //System.out.println(tableData.getValueAt(tableData.getSelectedRow(), 0).toString());
+	        	int fila = tableData.getSelectedRow();
+	        	if(fila != -1) {
+	        		String columns = "(EveCod, EveNom, EveFecAnio, EveFecMes, EveFecDia, EvePre, EveNroPar , EveCar, EveLugCod,EveEstReg )";
+					
+					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
+					String nom = tableData.getValueAt(fila, 1).toString();
+					int anio = Integer.parseInt(tableData.getValueAt(fila, 2).toString());
+					int mes = Integer.parseInt(tableData.getValueAt(fila, 3).toString());
+					int dia = Integer.parseInt(tableData.getValueAt(fila, 4).toString());
+					double precio = Double.parseDouble(tableData.getValueAt(fila, 5).toString());
+					int participantes = Integer.parseInt(tableData.getValueAt(fila, 6).toString());
+					String caracter = tableData.getValueAt(fila, 7).toString();
+					int lugar = Integer.parseInt(tableData.getValueAt(fila, 8).toString());
+					String estado = tableData.getValueAt(fila, 9).toString();
+					textField.setText(String.valueOf(id));
+					textField_1.setText(nom);
+					textField_2.setText(String.valueOf(anio));
+					textField_3.setText(String.valueOf(mes));
+					textField_4.setText(String.valueOf(dia));
+					textField_5.setText(String.valueOf(precio));
+					textField_6.setText(String.valueOf(participantes));
+					textField_7.setText(String.valueOf(lugar));
+					
+					//System.out.println("Id encontrado:  " + id + " " + nom + " " + anio + " " + mes + " " + dia + " " + precio + " " + participantes + " " + caracter + " " + lugar + " " + estado) ;
+	        	}
+	        	
+	        }
+	    });
 		modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Modificar");
 
 				int fila = tableData.getSelectedRow();
-				
 				if (fila != -1) {
 					//Codigo Funcional
 					
@@ -515,12 +551,14 @@ public class Ventana_Eventos {
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
-					
-					System.out.println("Id encontrado:  " + id + " " + nom + " " + anio + " " + mes + " " + dia + " " + precio + " " + participantes + " " + caracter + " " + lugar + " " + estado) ;
+					JOptionPane.showMessageDialog(frame, "Se Modifico exitosamente!!");
+					//System.out.println("Id encontrado:  " + id + " " + nom + " " + anio + " " + mes + " " + dia + " " + precio + " " + participantes + " " + caracter + " " + lugar + " " + estado) ;
 					
 				} else {
-					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
-				}			
+					JOptionPane.showMessageDialog(frame, "No selecciono ningun registro :(", "Inane warning",
+						    JOptionPane.WARNING_MESSAGE);
+				}	
+			
 			}
 		});
 		
