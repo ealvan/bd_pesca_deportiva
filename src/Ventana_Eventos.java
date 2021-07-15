@@ -506,6 +506,8 @@ public class Ventana_Eventos {
 					textField_5.setText(String.valueOf(precio));
 					textField_6.setText(String.valueOf(participantes));
 					textField_7.setText(String.valueOf(lugar));
+					comboBox.getModel().setSelectedItem(caracter);
+					comboBox_1.getModel().setSelectedItem(estado);
 					
 					//System.out.println("Id encontrado:  " + id + " " + nom + " " + anio + " " + mes + " " + dia + " " + precio + " " + participantes + " " + caracter + " " + lugar + " " + estado) ;
 	        	}
@@ -521,7 +523,7 @@ public class Ventana_Eventos {
 					//Codigo Funcional
 					
 					String columns = "(EveCod, EveNom, EveFecAnio, EveFecMes, EveFecDia, EvePre, EveNroPar , EveCar, EveLugCod,EveEstReg )";
-					
+					//solo iniciliza, ahora
 					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
 					String nom = tableData.getValueAt(fila, 1).toString();
 					int anio = Integer.parseInt(tableData.getValueAt(fila, 2).toString());
@@ -532,7 +534,31 @@ public class Ventana_Eventos {
 					String caracter = tableData.getValueAt(fila, 7).toString();
 					int lugar = Integer.parseInt(tableData.getValueAt(fila, 8).toString());
 					String estado = tableData.getValueAt(fila, 9).toString();
+					/*
+					 textField.setText(String.valueOf(id));
+					textField_1.setText(nom);
+					textField_2.setText(String.valueOf(anio));
 					
+					textField_3.setText(String.valueOf(mes));
+					textField_4.setText(String.valueOf(dia));
+					textField_5.setText(String.valueOf(precio));
+					textField_6.setText(String.valueOf(participantes));
+					textField_7.setText(String.valueOf(lugar));
+					comboBox.getModel().setSelectedItem(caracter);
+					comboBox_1.getModel().setSelectedItem(estado);
+					 */
+					id = Integer.parseInt(textField.getText());
+					nom = textField_1.getText();
+					anio = Integer.parseInt(textField_2.getText());
+					mes = Integer.parseInt(textField_3.getText());
+					dia = Integer.parseInt(textField_4.getText());
+					precio = Double.parseDouble(textField_5.getText());
+					participantes = Integer.parseInt(textField_6.getText());
+					lugar = Integer.parseInt(textField_7.getText());
+					caracter = (String) comboBox.getSelectedItem();
+					estado = comboBox_1.getSelectedItem().toString();
+					
+					System.out.println(caracter+"  "+estado);
 					try {
 						String query = "update eventos set EveNom = ?, EveFecAnio = ?, EveFecMes = ?, EveFecDia = ?,  EvePre = ?,  EveNroPar = ? , EveCar = ?, EveLugCod = ?,EveEstReg = ?   where EveCod = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
@@ -548,6 +574,7 @@ public class Ventana_Eventos {
 						preparedStmt.setInt		(10, id);
 						preparedStmt.execute();
 					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
+					   
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
@@ -713,8 +740,22 @@ int fila = tableData.getSelectedRow();
 		
 		actualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//No funciona xd
-				mostrarDatosClientes();	
+				//No funciona xd, dime ps, pa no estar buscando
+				dtm = new DefaultTableModel();
+				ArrayList<String[]> data = new ArrayList<String[]>();
+				data = Conexion.getData("eventos", con);
+				for(String col: data.get(0)) {
+					dtm.addColumn(col);
+				}
+				
+				for(int q =1; q < data.size(); q++) {
+					String row[] = new String[data.get(q).length];
+					for(int u =0; u < data.get(q).length; u++) {
+						row[u] = data.get(q)[u];
+					}
+					dtm.addRow(row);
+				}
+				tableData = new JTable(dtm);
 				System.out.println("Se actualizo Exitosamente todos los registros");
 				System.out.println("Actualizar");
 			}
