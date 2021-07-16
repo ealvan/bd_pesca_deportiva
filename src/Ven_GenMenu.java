@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class Ven_GenMenu {
@@ -98,10 +100,16 @@ public class Ven_GenMenu {
 		Seleccionar_Tipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String aux = get_Tabla_Type();
-				Ven_Referenciales tr = new Ven_Referenciales(aux);
-				frame.setVisible(false);
-				System.out.println(aux);
-				tr.frame.setVisible(true);
+				Ven_Referenciales tr;
+				try {
+					tr = new Ven_Referenciales(aux);
+					frame.setVisible(false);
+					System.out.println(aux);
+					tr.frame.setVisible(true);	
+				}catch(Exception err) {
+					JOptionPane.showMessageDialog(frame, "Error al conectarse a la Bd_pesca_depotiva");
+				}
+				
 
 			}
 		});

@@ -1,6 +1,8 @@
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -78,7 +80,11 @@ public class Ven_Login {
 		txtrUsername.setText("Username");
 		txtrUsername.setBounds(42, 53, 82, 22);
 		frame.getContentPane().add(txtrUsername);
-
+//		JLabel username = new JLabel("Username");
+//		Font style = new Font("arial",16,Font.BOLD);
+//		username.setFont(style);
+//		frame.getContentPane().add(username);
+		
 		JTextArea txtrPassword = new JTextArea();
 		txtrPassword.setEditable(false);
 		txtrPassword.setText("Password");
@@ -114,7 +120,7 @@ public class Ven_Login {
 
 					con.close();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Ingreso un usuario o una contrase�a incorrecta");
+					JOptionPane.showMessageDialog(null, "Ingreso un usuario o una contrasenia incorrecta");
 				}
 
 			}
