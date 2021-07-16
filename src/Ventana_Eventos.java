@@ -571,7 +571,18 @@ public class Ventana_Eventos {
 						preparedStmt.setInt		(10, id);
 						preparedStmt.execute();
 					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
-					   
+					    //modificando la tabla
+					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
+					    model.setValueAt(nom,fila, 1);
+					    model.setValueAt(anio,fila, 2);
+					    model.setValueAt(mes,fila, 3);
+					    model.setValueAt(dia,fila, 4);
+					    model.setValueAt(precio,fila, 5);
+					    model.setValueAt(participantes,fila, 6);
+					    model.setValueAt(caracter,fila, 7);
+					    model.setValueAt(lugar,fila, 8);
+					    model.setValueAt(estado,fila, 9);
+					    
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
@@ -753,8 +764,7 @@ int fila = tableData.getSelectedRow();
 					dtm.addRow(row);
 				}
 				tableData = new JTable(dtm);
-				System.out.println("Se actualizo Exitosamente todos los registros");
-				System.out.println("Actualizar");
+				System.out.println("UPDATE TABLE!");
 			}
 		});
 		
