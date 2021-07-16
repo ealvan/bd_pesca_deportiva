@@ -1,5 +1,6 @@
 
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +21,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -160,6 +163,19 @@ public class Tablas_Referenciales {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JTextPane txtpnEstadoDeRegistro = new JTextPane();
+		
+		SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(attributeSet, "arial");
+        StyleConstants.setFontSize(attributeSet, 16);
+        StyleConstants.setLineSpacing(attributeSet, -0.2f);
+        StyleConstants.setBold(attributeSet, true);
+        StyleConstants.setItalic(attributeSet, true);
+        StyleConstants.setBackground(attributeSet, Color.pink);
+        StyleConstants.setForeground(attributeSet, Color.black);
+        StyleConstants.setLeftIndent(attributeSet, 4);
+
+	    txtpnEstadoDeRegistro.setCharacterAttributes(attributeSet, true);
+		
 		txtpnEstadoDeRegistro.setText(Tname);
 		
 		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Tabla: ");
