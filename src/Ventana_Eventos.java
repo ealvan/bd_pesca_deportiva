@@ -673,7 +673,7 @@ public class Ventana_Eventos {
 //					int participantes = Integer.parseInt(tableData.getValueAt(fila, 6).toString());
 //					String caracter = tableData.getValueAt(fila, 7).toString();
 //					int lugar = Integer.parseInt(tableData.getValueAt(fila, 8).toString());
-					String estado = tableData.getValueAt(fila, 9).toString();
+					String estado;
 //					
 					try {
 //						String query = "DELETE FROM eventos WHERE EveCod = ?";
