@@ -1,5 +1,3 @@
-
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.sql.Connection;
@@ -34,7 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
-public class Tablas_Referenciales {
+public class Ven_Referenciales {
 
 	public JFrame frame;
 	private JTextField textField;
@@ -65,7 +63,7 @@ public class Tablas_Referenciales {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Tablas_Referenciales window = new Tablas_Referenciales("a");
+					Ven_Referenciales window = new Ven_Referenciales("a");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,7 +76,7 @@ public class Tablas_Referenciales {
 		dtm = new DefaultTableModel();
 		dtm.addColumn("ID");
 		dtm.addColumn("Nombre");
-		dtm.addColumn("Año");
+		dtm.addColumn("Aï¿½o");
 		dtm.addColumn("Mes");
 		dtm.addColumn("Dia");
 		dtm.addColumn("Precio");
@@ -148,7 +146,7 @@ public class Tablas_Referenciales {
 	}
 	
 	
-	public Tablas_Referenciales(String type) {
+	public Ven_Referenciales(String type) {
 		Tname = type;
 		create_Tablas(type);
 		initialize();
@@ -437,7 +435,7 @@ public class Tablas_Referenciales {
 					preparedStmt.execute();
 					
 				} catch (Exception f) {
-					JOptionPane.showMessageDialog(null, f + "Error en al añadir");
+					JOptionPane.showMessageDialog(null, f + "Error en al aï¿½adir");
 					// TODO: handle exception
 				}
 				
@@ -513,7 +511,7 @@ public class Tablas_Referenciales {
 			}
 		});
 		
-		//Se comento la parte netamente funcional porque pide que se vuelva * al eliminar su estado de registro, en este caso será E
+		//Se comento la parte netamente funcional porque pide que se vuelva * al eliminar su estado de registro, en este caso serï¿½ E
 		eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
