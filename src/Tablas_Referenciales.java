@@ -381,9 +381,26 @@ public class Tablas_Referenciales {
 	private void eventos() {
 		adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String rows = "select count(*) from "+Tname+";";
+				int numRows = 0;
+				try {
+					Statement stmt = con.createStatement();
+					ResultSet rs = stmt.executeQuery(rows);
+					while(rs.next())
+					numRows = Integer.parseInt(rs.getString(1));
+		
+				}catch(Exception err) {
+					err.printStackTrace();
+				}
+				
 				
 				String id = textField.getText();
 				String des = textField_1.getText();
+				if(des.isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "No agrego ningun caracter en el campo descripcion :(", "Inane warning",
+						    JOptionPane.WARNING_MESSAGE);
+					return;
+				}
 				int estado = (Integer)comboBox.getSelectedIndex();
 				String auxS;
 				
@@ -413,7 +430,7 @@ public class Tablas_Referenciales {
 					
 					String query = " insert into " + Tname + columns + "\n values (?, ?, ?)";
 					PreparedStatement preparedStmt = con.prepareStatement(query);
-					preparedStmt.setInt 	(1, Integer.parseInt(id));
+					preparedStmt.setInt 	(1, (numRows+1));
 				    preparedStmt.setString 	(2, des);
 				    preparedStmt.setString 	(3, auxS);
 				      
