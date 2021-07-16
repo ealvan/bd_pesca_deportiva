@@ -64,16 +64,13 @@ public class Ventana_Eventos {
 	//Los combo box
 	private JComboBox comboBox; 
 	private JComboBox comboBox_1;
-	
-	//pop up, ventan emergente
-	pop popup;
-	
 
 	/*
 	 * Launch the application.
 	 */
 	
 	public void mostrarDatosClientes() {
+		System.out.println("UPDATE");
 		dtm = new DefaultTableModel();
 		ArrayList<String[]> data = new ArrayList<String[]>();
 		data = Conexion.getData("eventos", con);
