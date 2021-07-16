@@ -57,67 +57,66 @@ public class Ven_Login {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
 		JTextPane txtpnLogin = new JTextPane();
 		txtpnLogin.setEditable(false);
 		txtpnLogin.setText("LOGIN");
 		txtpnLogin.setBounds(32, 25, 132, 20);
 		frame.getContentPane().add(txtpnLogin);
-		
+
 		textField = new JTextField();
 		textField.setBounds(32, 86, 253, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setBounds(32, 151, 253, 20);
 		frame.getContentPane().add(passwordField);
-		
+
 		JTextArea txtrUsername = new JTextArea();
 		txtrUsername.setEditable(false);
 		txtrUsername.setText("Username");
 		txtrUsername.setBounds(42, 53, 82, 22);
 		frame.getContentPane().add(txtrUsername);
-		
+
 		JTextArea txtrPassword = new JTextArea();
 		txtrPassword.setEditable(false);
 		txtrPassword.setText("Password");
 		txtrPassword.setBounds(42, 117, 82, 22);
 		frame.getContentPane().add(txtrPassword);
-		
+
 		JButton btnNewButton = new JButton("Logearte");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				char[] input = passwordField.getPassword();
-				
+
 				String query = "SELECT UsuCon FROM usuario where UsuUsu = '" + textField.getText() + "'";
 				System.out.println(query);
-				
+
 				try {
-					Statement stmt = con.createStatement();  
+					Statement stmt = con.createStatement();
 					ResultSet rs = stmt.executeQuery(query);
 					String k = null;
 					if (rs.next()) {
 						k = rs.getString(1);
 					}
-					
+
 					char[] correctPassword = k.toCharArray();
-					
-					if(Arrays.equals(correctPassword,input)) {
+
+					if (Arrays.equals(correctPassword, input)) {
 						System.out.println("PUDO LOGEARSE");
-						
+
 						Ven_GenMenu tr = new Ven_GenMenu();
 						frame.setVisible(false);
 						tr.frame.setVisible(true);
-						
+
 					}
-					
-					
+
 					con.close();
-				}catch(Exception e1) {
-					JOptionPane.showMessageDialog(null,"Ingreso un usuario o una contraseña incorrecta");
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Ingreso un usuario o una contraseï¿½a incorrecta");
 				}
-				
+
 			}
 		});
 		btnNewButton.setBounds(32, 200, 89, 23);
