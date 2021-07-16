@@ -72,7 +72,7 @@ public class Ventana_Eventos {
 	public void mostrarDatosClientes() {
 		System.out.println("UPDATE");
 		dtm = new DefaultTableModel();
-		ArrayList<String[]> data = new ArrayList<String[]>();
+		ArrayList<String[]> data;//estaba inicializado
 		data = Conexion.getData("eventos", con);
 		for(String col: data.get(0)) {
 			dtm.addColumn(col);
@@ -483,7 +483,7 @@ public class Ventana_Eventos {
 	            //System.out.println(tableData.getValueAt(tableData.getSelectedRow(), 0).toString());
 	        	int fila = tableData.getSelectedRow();
 	        	if(fila != -1) {
-	        		String columns = "(EveCod, EveNom, EveFecAnio, EveFecMes, EveFecDia, EvePre, EveNroPar , EveCar, EveLugCod,EveEstReg )";
+	        		//String columns = "(EveCod, EveNom, EveFecAnio, EveFecMes, EveFecDia, EvePre, EveNroPar , EveCar, EveLugCod,EveEstReg )";
 					
 					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
 					String nom = tableData.getValueAt(fila, 1).toString();

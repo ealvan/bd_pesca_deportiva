@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
@@ -413,7 +415,26 @@ public class Tablas_Referenciales {
 				
 			}
 		});
-		
+		tableData.getSelectionModel().addListSelectionListener((ListSelectionListener) new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	int fila = tableData.getSelectedRow();
+				
+				if (fila != -1) {
+					//Codigo Funcional
+					
+					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
+					String des = tableData.getValueAt(fila, 1).toString();
+					String estado = tableData.getValueAt(fila, 2).toString();
+					textField.setText(String.valueOf(id));
+					textField_1.setText(des);
+					comboBox.getModel().setSelectedItem(estado);
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
+				}
+	        	
+	        }
+	    });
 		modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Modificar");
@@ -424,40 +445,37 @@ public class Tablas_Referenciales {
 					//Codigo Funcional
 					
 					
-					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
-					String des = tableData.getValueAt(fila, 1).toString();
-					int estado = (Integer)comboBox.getSelectedIndex();
-					String auxS;
+					int id = Integer.parseInt(textField.getText());		
+					String des = textField_1.getText();
+					String estado = comboBox.getSelectedItem().toString();
 					
-					if (estado == 0) {
-						auxS = "A";
-					} else if (estado == 1) {
-						auxS = "I";
-					} else {
-						auxS = "E";
-					}
 					
 					try {
 						
 						ArrayList <String> k = getColumns(Tname,con);
-
-						
 						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
 						
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, des);
-						preparedStmt.setString	(2, auxS);
+						preparedStmt.setString	(2, estado);
 						preparedStmt.setInt		(3, id);
 						preparedStmt.execute();
 						
 					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
+					    JOptionPane.showMessageDialog(frame, "Se Modifico exitosamente!!");
+						//poniendo los datos, actualizados
+					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
+					    model.setValueAt(String.valueOf(id), fila, 0);
+					    model.setValueAt(des, fila, 1);
+					    model.setValueAt(estado, fila, 2);
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
 					
 					
 				} else {
-					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
+					JOptionPane.showMessageDialog(frame, "No selecciono ningun registro :(", "Inane warning",
+						    JOptionPane.WARNING_MESSAGE);
 				}			
 			}
 		});
@@ -572,7 +590,8 @@ public class Tablas_Referenciales {
 		
 		actualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Actualizar");
+				System.out.println("UPDATE TABLE!");
+				
 			}
 		});
 		
