@@ -68,7 +68,7 @@ public class Ven_Datos_Eventos_Afiliados {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Ven_Datos_Eventos_Afiliados window = new Ven_Datos_Eventos_Afiliados("a");
+					Ven_Datos_Eventos_Afiliados window = new Ven_Datos_Eventos_Afiliados("eventos_afi");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -86,10 +86,10 @@ public class Ven_Datos_Eventos_Afiliados {
 	
 	public void create_Tablas(String tabla) {
 		dtm = new DefaultTableModel();
-		dtm.addColumn(getColumns(tabla,con).get(0));
-		dtm.addColumn(getColumns(tabla,con).get(1));
-		dtm.addColumn(getColumns(tabla,con).get(2));
-		
+		ArrayList<String> cols = getColumns(tabla,con);
+		for(String col: cols) {
+			dtm.addColumn(col);
+		}
 		String[] datos = new String [10];
 		
 		try {
@@ -100,6 +100,9 @@ public class Ven_Datos_Eventos_Afiliados {
 				datos[0] = rs.getString(1);
 				datos[1] = rs.getString(2);
 				datos[2] = rs.getString(3);
+				datos[3] = rs.getString(4);
+				datos[4] = rs.getString(5);
+				datos[5] = rs.getString(6);
 				dtm.addRow(datos);
 			}
 			
@@ -221,10 +224,19 @@ public class Ven_Datos_Eventos_Afiliados {
 		adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String id = textField.getText();
-				String des = textField_1.getText();
+				int id = Integer.parseInt(textField.getText());
+				int  pos = Integer.parseInt(textField_1.getText());
+				int evecod =Integer.parseInt(textField_2.getText());
+				int afiCod = Integer.parseInt(textField_3.getText());
+				int trocod = Integer.parseInt(textField_4.getText());
+				
 				int estado = (Integer)comboBox.getSelectedIndex();
 				String auxS;
+				
+				System.out.println(id);
+				System.out.println(pos);
+				System.out.println(evecod);
+				System.out.println(afiCod);
 				
 				
 				if (estado == 0) {
@@ -236,33 +248,24 @@ public class Ven_Datos_Eventos_Afiliados {
 				}
 				
 				
-				if(id != "" && des !="" ) {
-					Object [] row = {
-							id, des, auxS,
-						};
-						dtm.addRow(row);
-				}
-				
-				
+//				
 				try {
 					
-					ArrayList <String> k = getColumns(Tname,con);
-					
-					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2) + ")";
-					
-					String query = " insert into " + Tname + columns + "\n values (?, ?, ?)";
+					String query = " insert into " + Tname + " values (?, ?, ?, ?, ?, ?)";
 					PreparedStatement preparedStmt = con.prepareStatement(query);
-					preparedStmt.setInt 	(1, Integer.parseInt(id));
-				    preparedStmt.setString 	(2, des);
-				    preparedStmt.setString 	(3, auxS);
-				      
+					preparedStmt.setInt 	(1, id);
+				    preparedStmt.setInt 	(2, pos);
+				    preparedStmt.setInt 	(3, evecod);
+				    preparedStmt.setInt 	(4, afiCod);
+				    preparedStmt.setInt 	(5, trocod);
+				    preparedStmt.setString 	(6, auxS);
 					preparedStmt.execute();
 					
 				} catch (Exception f) {
-					JOptionPane.showMessageDialog(null, f + "Error en al añadir");
+					JOptionPane.showMessageDialog(null, f + "Error al añadir");
 					// TODO: handle exception
 				}
-				
+//				
 				
 				textField.setText("");
 				textField_1.setText("");
@@ -277,12 +280,19 @@ public class Ven_Datos_Eventos_Afiliados {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
-					String des = tableData.getValueAt(fila, 1).toString();
-					String estado = tableData.getValueAt(fila, 2).toString();
-					textField.setText(String.valueOf(id));
-					textField_1.setText(des);
-					comboBox.getModel().setSelectedItem(estado);
+					String name = tableData.getValueAt(fila, 0).toString();		
+					String apel = tableData.getValueAt(fila, 1).toString();
+					String evento = tableData.getValueAt(fila, 2).toString();
+					String precio = tableData.getValueAt(fila, 3).toString();
+					String posicion = tableData.getValueAt(fila, 4).toString();
+					String trofeo = tableData.getValueAt(fila, 5).toString();
+					
+					textField.setText(name);
+					textField_1.setText(apel);
+					textField_2.setText(evento);
+					textField_3.setText(precio);
+					textField_4.setText(posicion);
+					//textField_5.setText(trofeo);
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
@@ -304,30 +314,30 @@ public class Ven_Datos_Eventos_Afiliados {
 					String des = textField_1.getText();
 					String estado = comboBox.getSelectedItem().toString();
 					
-					
-					try {
-						
-						ArrayList <String> k = getColumns(Tname,con);
-						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
-						
-						PreparedStatement preparedStmt = con.prepareStatement(query);
-						preparedStmt.setString	(1, des);
-						preparedStmt.setString	(2, estado);
-						preparedStmt.setInt		(3, id);
-						preparedStmt.execute();
-						
-					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
-					    JOptionPane.showMessageDialog(frame, "Se Modifico exitosamente!!");
-						//poniendo los datos, actualizados
-					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
-					    model.setValueAt(String.valueOf(id), fila, 0);
-					    model.setValueAt(des, fila, 1);
-					    model.setValueAt(estado, fila, 2);
-					}catch(Exception ha) {
-						ha.printStackTrace();
-					}
-					
-					
+//					
+//					try {
+//						
+//						ArrayList <String> k = getColumns(Tname,con);
+//						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
+//						
+//						PreparedStatement preparedStmt = con.prepareStatement(query);
+//						preparedStmt.setString	(1, des);
+//						preparedStmt.setString	(2, estado);
+//						preparedStmt.setInt		(3, id);
+//						preparedStmt.execute();
+//						
+//					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
+//					    JOptionPane.showMessageDialog(frame, "Se Modifico exitosamente!!");
+//						//poniendo los datos, actualizados
+//					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
+//					    model.setValueAt(String.valueOf(id), fila, 0);
+//					    model.setValueAt(des, fila, 1);
+//					    model.setValueAt(estado, fila, 2);
+//					}catch(Exception ha) {
+//						ha.printStackTrace();
+//					}
+//					
+//					
 				} else {
 					JOptionPane.showMessageDialog(frame, "No selecciono ningun registro :(", "Inane warning",
 						    JOptionPane.WARNING_MESSAGE);
@@ -352,12 +362,12 @@ public class Ven_Datos_Eventos_Afiliados {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "E";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(5) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("E", fila, 2);
+						tableData.setValueAt("E", fila, 5);
 					    System.out.println("Se Borro Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -393,12 +403,12 @@ public class Ven_Datos_Eventos_Afiliados {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "I";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(5) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("I", fila, 2);
+						tableData.setValueAt("I", fila, 5);
 					    System.out.println("Se Inactivo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -410,7 +420,7 @@ public class Ven_Datos_Eventos_Afiliados {
 				System.out.println("Inactivar");
 			}
 		});
-		
+		////VISTA
 		reactivar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int fila = tableData.getSelectedRow();
@@ -425,12 +435,12 @@ public class Ven_Datos_Eventos_Afiliados {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "A";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(5) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("A", fila, 2);
+						tableData.setValueAt("A", fila, 5);
 					    System.out.println("Se Activo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -459,6 +469,8 @@ public class Ven_Datos_Eventos_Afiliados {
 	}
 	
 	void create_dates(String a) {
+		ArrayList<String> cols = getColumns(Tname, con);
+		
 		JTextPane txtpnEstadoDeRegistro = new JTextPane();
 		txtpnEstadoDeRegistro.setBounds(55, 30, 125, 20);
 		
@@ -482,17 +494,17 @@ public class Ven_Datos_Eventos_Afiliados {
 		JFormattedTextField frmtdtxtfldId = new JFormattedTextField();
 		frmtdtxtfldId.setBounds(10, 71, 90, 20);
 		frmtdtxtfldId.setHorizontalAlignment(SwingConstants.RIGHT);
-		frmtdtxtfldId.setText("Id:");
+		frmtdtxtfldId.setText(cols.get(0));
 		
 		JFormattedTextField frmtdtxtfldDescripcion = new JFormattedTextField();
 		frmtdtxtfldDescripcion.setBounds(10, 102, 90, 20);
 		frmtdtxtfldDescripcion.setHorizontalAlignment(SwingConstants.RIGHT);
-		frmtdtxtfldDescripcion.setText("Afiliado Posicion:");
+		frmtdtxtfldDescripcion.setText( cols.get(1));
 		
 		JFormattedTextField frmtdtxtfldEstado = new JFormattedTextField();
 		frmtdtxtfldEstado.setHorizontalAlignment(SwingConstants.RIGHT);
 		frmtdtxtfldEstado.setBounds(258, 133, 87, 20);
-		frmtdtxtfldEstado.setText("Estado:");
+		frmtdtxtfldEstado.setText(cols.get(5));
 		
 		textField = new JTextField();
 		textField.setBounds(110, 71, 42, 20);
@@ -511,7 +523,7 @@ public class Ven_Datos_Eventos_Afiliados {
 		JFormattedTextField frmtdtxtfldComunidad = new JFormattedTextField();
 		frmtdtxtfldComunidad.setBounds(10, 133, 90, 20);
 		frmtdtxtfldComunidad.setHorizontalAlignment(SwingConstants.RIGHT);
-		frmtdtxtfldComunidad.setText("Evento Cod:");
+		frmtdtxtfldComunidad.setText(cols.get(2));
 		frame.getContentPane().setLayout(null);
 		adicionar.setBounds(24, 428, 99, 23);
 		frame.getContentPane().add(adicionar);
@@ -539,38 +551,39 @@ public class Ven_Datos_Eventos_Afiliados {
 		frame.getContentPane().add(frmtdtxtfldEstado);
 		frame.getContentPane().add(comboBox);
 		
+		
 		JFormattedTextField frmtdtxtfldAfiliadoCod = new JFormattedTextField();
-		frmtdtxtfldAfiliadoCod.setText("Afiliado Cod:");
+		frmtdtxtfldAfiliadoCod.setText(cols.get(3));
 		frmtdtxtfldAfiliadoCod.setHorizontalAlignment(SwingConstants.RIGHT);
 		frmtdtxtfldAfiliadoCod.setBounds(255, 71, 90, 20);
 		frame.getContentPane().add(frmtdtxtfldAfiliadoCod);
 		
 		JFormattedTextField frmtdtxtfldTrofeoCod = new JFormattedTextField();
-		frmtdtxtfldTrofeoCod.setText("Trofeo Cod:");
+		frmtdtxtfldTrofeoCod.setText(cols.get(4));
 		frmtdtxtfldTrofeoCod.setHorizontalAlignment(SwingConstants.RIGHT);
 		frmtdtxtfldTrofeoCod.setBounds(255, 102, 90, 20);
 		frame.getContentPane().add(frmtdtxtfldTrofeoCod);
 		
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
-		textField_3.setBounds(356, 71, 42, 20);
+		textField_3.setBounds(356, 71, 80, 20);
 		frame.getContentPane().add(textField_3);
 		
 		textField_4 = new JTextField();
 		textField_4.setColumns(10);
-		textField_4.setBounds(356, 102, 42, 20);
+		textField_4.setBounds(356, 102, 80, 20);
 		frame.getContentPane().add(textField_4);
 		
 		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(110, 102, 42, 20);
+		textField_1.setColumns(40);
+		textField_1.setBounds(110, 102, 80, 20);
 		frame.getContentPane().add(textField_1);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(110, 133, 42, 20);
+		textField_2.setBounds(110, 133, 80, 20);
 		frame.getContentPane().add(textField_2);
-		eventos();
+		
 		
 	}
 }
