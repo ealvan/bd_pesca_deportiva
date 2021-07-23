@@ -251,11 +251,6 @@ public class Ven_Datos_Lugares {
 					auxS = "E";
 				}
 				
-				System.out.println("" + Integer.parseInt(id));
-				System.out.println(Integer.parseInt(cauce));
-				System.out.println(Integer.parseInt(lugar_tip));
-				System.out.println(Integer.parseInt(acotado));
-				System.out.println(Integer.parseInt(lugar_veda));
 
 				
 				try {
@@ -290,36 +285,51 @@ public class Ven_Datos_Lugares {
 					// TODO: handle exception
 				}
 				
+				textoChidori.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
+				textField_3.setText("");
+				textField_4.setText("");
+				textField_5.setText("");
+				textField_6.setText("");
 				
 				
 				System.out.println("Adicionar");
 				
 			}
 		});
-//		tableData.getSelectionModel().addListSelectionListener((ListSelectionListener) new ListSelectionListener(){
-//	        public void valueChanged(ListSelectionEvent event) {
-//	        	int fila = tableData.getSelectedRow();
-//				
-//				if (fila != -1) {
-//					//Codigo Funcional
-//					
-//					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
-//					String des = tableData.getValueAt(fila, 1).toString();
-//					String estado = tableData.getValueAt(fila, 2).toString();
-//					
-//					
-//					
-//					
-//					textField.setText(String.valueOf(id));
-//					textField_1.setText(des);
-//					comboBox.getModel().setSelectedItem(estado);
-//					
-//				} else {
-//					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
-//				}
-//	        	
-//	        }
-//	    });
+		tableData.getSelectionModel().addListSelectionListener((ListSelectionListener) new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	int fila = tableData.getSelectedRow();
+				
+				if (fila != -1) {
+					//Codigo Funcional
+					
+					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());
+					String nombre = tableData.getValueAt(fila, 1).toString();
+					String comunidad = tableData.getValueAt(fila, 2).toString();
+					int cauce = Integer.parseInt(tableData.getValueAt(fila, 3).toString());
+					int lugar_tip = Integer.parseInt(tableData.getValueAt(fila, 4).toString());
+					int acotado =  Integer.parseInt(tableData.getValueAt(fila, 5).toString());
+					int lugar_veda = Integer.parseInt(tableData.getValueAt(fila, 6).toString());
+					String estado = tableData.getValueAt(fila, 7).toString();
+					
+					textoChidori.setText(String.valueOf(id));
+					textField_1.setText(nombre);
+					textField_2.setText(comunidad);
+					textField_3.setText("" + lugar_tip);
+					textField_4.setText("" +acotado);
+					textField_5.setText("" +lugar_veda);
+					textField_6.setText("" +lugar_veda);
+
+					comboBox.getModel().setSelectedItem(estado);
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
+				}
+	        	
+	        }
+	    });
 		modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Modificar");
@@ -329,21 +339,30 @@ public class Ven_Datos_Lugares {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					
-					int id = Integer.parseInt(textoChidori.getText());		
-					String des = textField_1.getText();
+					int id = Integer.parseInt(textoChidori.getText());
+					String nombre = textField_1.getText();
+					String comunidad = textField_2.getText();
+					int cauce = Integer.parseInt(textField_3.getText());
+					int lugar_tip = Integer.parseInt(textField_4.getText());
+					int acotado =  Integer.parseInt(textField_5.getText());
+					int lugar_veda = Integer.parseInt(textField_6.getText());
 					String estado = comboBox.getSelectedItem().toString();
 					
 					
 					try {
 						
 						ArrayList <String> k = getColumns(Tname,con);
-						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?, " + k.get(3) + " = ?, " + k.get(4) + " = ?, " + k.get(5) + " = ?, " + k.get(6) + " = ?, " + k.get(7) + " = ?   where " + k.get(0) + " = ?";
 						
 						PreparedStatement preparedStmt = con.prepareStatement(query);
-						preparedStmt.setString	(1, des);
-						preparedStmt.setString	(2, estado);
-						preparedStmt.setInt		(3, id);
+						preparedStmt.setString	(1, nombre);
+						preparedStmt.setString	(2, comunidad);
+						preparedStmt.setInt		(3, cauce);
+						preparedStmt.setInt		(4, lugar_tip);
+						preparedStmt.setInt		(5, acotado);
+						preparedStmt.setInt		(6, lugar_veda);
+						preparedStmt.setString	(7, estado);
+						preparedStmt.setInt		(8, id);
 						preparedStmt.execute();
 						
 					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
@@ -351,8 +370,14 @@ public class Ven_Datos_Lugares {
 						//poniendo los datos, actualizados
 					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
 					    model.setValueAt(String.valueOf(id), fila, 0);
-					    model.setValueAt(des, fila, 1);
-					    model.setValueAt(estado, fila, 2);
+					    model.setValueAt(nombre, fila, 1);
+					    model.setValueAt(comunidad, fila, 2);
+					    model.setValueAt(cauce, fila, 3);
+					    model.setValueAt(lugar_tip, fila, 4);
+					    model.setValueAt(acotado, fila, 5);
+					    model.setValueAt(lugar_veda, fila, 6);
+					    model.setValueAt(estado, fila, 7);
+					    
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
@@ -382,12 +407,12 @@ public class Ven_Datos_Lugares {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "E";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(7) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("E", fila, 2);
+						tableData.setValueAt("E", fila, 7);
 					    System.out.println("Se Borro Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -423,12 +448,12 @@ public class Ven_Datos_Lugares {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "I";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(7) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("I", fila, 2);
+						tableData.setValueAt("I", fila, 7);
 					    System.out.println("Se Inactivo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -455,12 +480,12 @@ public class Ven_Datos_Lugares {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "A";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(7) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("A", fila, 2);
+						tableData.setValueAt("A", fila, 7);
 					    System.out.println("Se Activo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();

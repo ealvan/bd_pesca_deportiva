@@ -83,8 +83,8 @@ public class Ven_GenMenu {
 		frame.getContentPane().add(comboBox);
 		frame.getContentPane().add(Seleccionar_Tipo);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(27, 110, 46, 14);
+		JLabel lblNewLabel = new JLabel("Seleccione una tabla de datos a editar");
+		lblNewLabel.setBounds(27, 110, 200, 14);
 		frame.getContentPane().add(lblNewLabel);
 		
 		comboBox_1 = new JComboBox();
@@ -194,7 +194,18 @@ public class Ven_GenMenu {
 					System.out.println(aux);
 					tr.frame.setVisible(true);
 					
-				} else if(aux.equals("capturas_solos")) {
+				} else if(aux.equals("eventos")) {
+					
+					Ven_Datos_Eventos tr = new Ven_Datos_Eventos(aux);
+					//Ven_Referenciales tr = new Ven_Referenciales(aux);
+					frame.setVisible(false);
+					System.out.println(aux);
+					tr.frame.setVisible(true);
+					
+				}
+				
+				
+				else if(aux.equals("capturas_solos")) {
 					
 					Ven_Datos_Capturas_Solos tr = new Ven_Datos_Capturas_Solos(aux);
 					//Ven_Referenciales tr = new Ven_Referenciales(aux);
