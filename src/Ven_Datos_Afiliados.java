@@ -37,8 +37,8 @@ import java.awt.BorderLayout;
 public class Ven_Datos_Afiliados {
 
 	public JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField id_cod;
+	private JTextField nombre;
 	private String Tname;
 	private JComboBox comboBox;
 	
@@ -57,14 +57,14 @@ public class Ven_Datos_Afiliados {
 	private Connection con = conection.getConn();
 	private JTable tableData;
 	private DefaultTableModel dtm;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
+	private JTextField pat;
+	private JTextField pais;
+	private JTextField mat;
+	private JTextField anio;
+	private JTextField mes;
+	private JTextField dia;
+	private JTextField est_civil;
+	private JTextField lic_cod;
 
 	/**
 	 * Launch the application.
@@ -94,8 +94,16 @@ public class Ven_Datos_Afiliados {
 		dtm.addColumn(getColumns(tabla,con).get(0));
 		dtm.addColumn(getColumns(tabla,con).get(1));
 		dtm.addColumn(getColumns(tabla,con).get(2));
+		dtm.addColumn(getColumns(tabla,con).get(3));
+		dtm.addColumn(getColumns(tabla,con).get(4));
+		dtm.addColumn(getColumns(tabla,con).get(5));
+		dtm.addColumn(getColumns(tabla,con).get(6));
+		dtm.addColumn(getColumns(tabla,con).get(7));
+		dtm.addColumn(getColumns(tabla,con).get(8));
+		dtm.addColumn(getColumns(tabla,con).get(9));
+		dtm.addColumn(getColumns(tabla,con).get(10));
 		
-		String[] datos = new String [10];
+		String[] datos = new String [11];
 		
 		try {
 			Statement stmt = con.createStatement();
@@ -105,6 +113,14 @@ public class Ven_Datos_Afiliados {
 				datos[0] = rs.getString(1);
 				datos[1] = rs.getString(2);
 				datos[2] = rs.getString(3);
+				datos[3] = rs.getString(4);
+				datos[4] = rs.getString(5);
+				datos[5] = rs.getString(6);
+				datos[6] = rs.getString(7);
+				datos[7] = rs.getString(8);
+				datos[8] = rs.getString(9);
+				datos[9] = rs.getString(10);
+				datos[10] = rs.getString(11);
 				dtm.addRow(datos);
 			}
 			
@@ -224,9 +240,19 @@ public class Ven_Datos_Afiliados {
 		adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String id = textField.getText();
-				String des = textField_1.getText();
+				String id = id_cod.getText();
+				String nom = nombre.getText();
+				String apat = pat.getText();
+				String amat = mat.getText();
+				String ianio = anio.getText();
+				String imes = mes.getText();
+				String idia = dia.getText();
+				String pai = pais.getText();
+				String e_C = est_civil.getText();
+				String lic = lic_cod.getText();
 				int estado = (Integer)comboBox.getSelectedIndex();
+	
+				
 				String auxS;
 				
 				
@@ -239,36 +265,48 @@ public class Ven_Datos_Afiliados {
 				}
 				
 				
-				if(id != "" && des !="" ) {
-					Object [] row = {
-							id, des, auxS,
-						};
-						dtm.addRow(row);
-				}
-				
 				
 				try {
 					
 					ArrayList <String> k = getColumns(Tname,con);
 					
-					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2) + ")";
+					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2) + ", " + k.get(3) + ", " + k.get(4) + ", " + k.get(5) + ", " + k.get(6) + ", " + k.get(7) + ", " + k.get(8) + ", " + k.get(9) + ", " + k.get(10) + ")";
 					
-					String query = " insert into " + Tname + columns + "\n values (?, ?, ?)";
+					String query = " insert into " + Tname + columns + "\n values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					PreparedStatement preparedStmt = con.prepareStatement(query);
 					preparedStmt.setInt 	(1, Integer.parseInt(id));
-				    preparedStmt.setString 	(2, des);
-				    preparedStmt.setString 	(3, auxS);
+				    preparedStmt.setString 	(2, nom);
+				    preparedStmt.setString 	(3, apat);
+				    preparedStmt.setString 	(4, amat);
+				    preparedStmt.setInt 	(5, Integer.parseInt(ianio));
+				    preparedStmt.setInt 	(6, Integer.parseInt(imes));
+				    preparedStmt.setInt 	(7, Integer.parseInt(idia));
+				    preparedStmt.setInt 	(8, Integer.parseInt(pai));
+				    preparedStmt.setInt 	(9, Integer.parseInt(e_C));
+				    preparedStmt.setInt 	(10, Integer.parseInt(lic));
+				    preparedStmt.setString 	(11, auxS);
 				      
 					preparedStmt.execute();
+					
+					Object [] row = {id, 2, nom, apat,amat,ianio,imes,idia,pai,e_C,lic,auxS};
+					dtm.addRow(row);
 					
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, f + "Error en al añadir");
 					// TODO: handle exception
 				}
 				
+				id_cod.setText("");
+				nombre.setText("");
+				pat.setText("");
+				mat.setText("");
+				anio.setText("");
+				mes.setText("");
+				dia.setText("");
+				pais.setText("");
+				est_civil.setText("");
+				lic_cod.setText("");
 				
-				textField.setText("");
-				textField_1.setText("");
 				System.out.println("Adicionar");
 				
 			}
@@ -280,11 +318,29 @@ public class Ven_Datos_Afiliados {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
-					String des = tableData.getValueAt(fila, 1).toString();
-					String estado = tableData.getValueAt(fila, 2).toString();
-					textField.setText(String.valueOf(id));
-					textField_1.setText(des);
+					
+					String id = 	tableData.getValueAt(fila, 0).toString();
+					String nom = 	tableData.getValueAt(fila, 1).toString();
+					String apat = 	tableData.getValueAt(fila, 2).toString();
+					String amat = 	tableData.getValueAt(fila, 3).toString();
+					String ianio = 	tableData.getValueAt(fila, 4).toString();
+					String imes = 	tableData.getValueAt(fila, 5).toString();
+					String idia = 	tableData.getValueAt(fila, 6).toString();
+					String pai = 	tableData.getValueAt(fila, 7).toString();
+					String e_C = 	tableData.getValueAt(fila, 8).toString();
+					String lic = 	tableData.getValueAt(fila, 9).toString();
+					String estado = tableData.getValueAt(fila, 10).toString();
+					
+					id_cod.setText(String.valueOf(id));
+					nombre.setText(String.valueOf(nom));
+					pat.setText(String.valueOf(apat));
+					mat.setText(String.valueOf(amat));
+					anio.setText(String.valueOf(ianio));
+					mes.setText(String.valueOf(imes));
+					dia.setText(String.valueOf(idia));
+					pais.setText(String.valueOf(pai));
+					est_civil.setText(String.valueOf(e_C));
+					lic_cod.setText(String.valueOf(lic));
 					comboBox.getModel().setSelectedItem(estado);
 					
 				} else {
@@ -302,21 +358,37 @@ public class Ven_Datos_Afiliados {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					
-					int id = Integer.parseInt(textField.getText());		
-					String des = textField_1.getText();
+					int id = 		Integer.parseInt(id_cod.getText());
+					String nom = 	nombre.getText();
+					String apat = 	pat.getText();
+					String amat = 	mat.getText();
+					int ianio = 	Integer.parseInt(anio.getText());
+					int imes = 		Integer.parseInt(mes.getText());
+					int idia = 		Integer.parseInt(dia.getText());
+					int pai = 		Integer.parseInt(pais.getText());
+					int e_C = 		Integer.parseInt(est_civil.getText());
+					int lic = 		Integer.parseInt(lic_cod.getText());
 					String estado = comboBox.getSelectedItem().toString();
+
 					
 					
 					try {
 						
 						ArrayList <String> k = getColumns(Tname,con);
-						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?, " + k.get(3) + " = ?, " + k.get(4) + " = ?, " + k.get(5) + " = ?, " + k.get(6) + " = ?, " + k.get(7) + " = ?, " + k.get(8) + " = ?, " + k.get(9) + " = ?, " + k.get(10) + " = ?   where " + k.get(0) + " = ?";
 						
 						PreparedStatement preparedStmt = con.prepareStatement(query);
-						preparedStmt.setString	(1, des);
-						preparedStmt.setString	(2, estado);
-						preparedStmt.setInt		(3, id);
+						preparedStmt.setString	(1, nom);
+						preparedStmt.setString	(2, apat);
+						preparedStmt.setString	(3, amat);
+						preparedStmt.setInt		(4, ianio);
+						preparedStmt.setInt		(5, imes);
+						preparedStmt.setInt		(6, idia);
+						preparedStmt.setInt		(7, pai);
+						preparedStmt.setInt		(8, e_C);
+						preparedStmt.setInt		(9, lic);
+						preparedStmt.setString	(10, estado);
+						preparedStmt.setInt		(11, id);
 						preparedStmt.execute();
 						
 					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
@@ -324,8 +396,17 @@ public class Ven_Datos_Afiliados {
 						//poniendo los datos, actualizados
 					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
 					    model.setValueAt(String.valueOf(id), fila, 0);
-					    model.setValueAt(des, fila, 1);
+					    model.setValueAt(nom, fila, 1);
+					    model.setValueAt(apat, fila, 2);
+					    model.setValueAt(amat, fila, 2);
+					    model.setValueAt(String.valueOf(ianio), fila, 0);
+					    model.setValueAt(String.valueOf(imes), fila, 0);
+					    model.setValueAt(String.valueOf(idia), fila, 0);
+					    model.setValueAt(String.valueOf(pai), fila, 0);
+					    model.setValueAt(String.valueOf(e_C), fila, 0);
+					    model.setValueAt(String.valueOf(lic), fila, 0);
 					    model.setValueAt(estado, fila, 2);
+
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
@@ -355,12 +436,12 @@ public class Ven_Datos_Afiliados {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "E";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(10) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("E", fila, 2);
+						tableData.setValueAt("E", fila, 10);
 					    System.out.println("Se Borro Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -396,12 +477,12 @@ public class Ven_Datos_Afiliados {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "I";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(10) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("I", fila, 2);
+						tableData.setValueAt("I", fila, 10);
 					    System.out.println("Se Inactivo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -428,12 +509,12 @@ public class Ven_Datos_Afiliados {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "A";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(10) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("A", fila, 2);
+						tableData.setValueAt("A", fila, 10);
 					    System.out.println("Se Activo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -497,13 +578,13 @@ public class Ven_Datos_Afiliados {
 		frmtdtxtfldEstado.setBounds(264, 164, 87, 20);
 		frmtdtxtfldEstado.setText("Estado:");
 		
-		textField = new JTextField();
-		textField.setBounds(110, 71, 42, 20);
-		textField.setColumns(10);
+		id_cod = new JTextField();
+		id_cod.setBounds(110, 71, 42, 20);
+		id_cod.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(110, 102, 115, 20);
-		textField_1.setColumns(10);
+		nombre = new JTextField();
+		nombre.setBounds(110, 102, 115, 20);
+		nombre.setColumns(10);
 		
 		comboBox = new JComboBox();
 		comboBox.setBounds(362, 164, 43, 20);
@@ -517,18 +598,18 @@ public class Ven_Datos_Afiliados {
 		frmtdtxtfldComunidad.setHorizontalAlignment(SwingConstants.RIGHT);
 		frmtdtxtfldComunidad.setText("Apellido Pat:");
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(110, 133, 115, 20);
-		textField_2.setColumns(10);
+		pat = new JTextField();
+		pat.setBounds(110, 133, 115, 20);
+		pat.setColumns(10);
 		
 		JFormattedTextField frmtdtxtfldLugarCauce = new JFormattedTextField();
 		frmtdtxtfldLugarCauce.setBounds(261, 71, 90, 20);
 		frmtdtxtfldLugarCauce.setHorizontalAlignment(SwingConstants.RIGHT);
 		frmtdtxtfldLugarCauce.setText("Pais Cod:");
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(361, 71, 102, 20);
-		textField_3.setColumns(10);
+		pais = new JTextField();
+		pais.setBounds(361, 71, 102, 20);
+		pais.setColumns(10);
 		frame.getContentPane().setLayout(null);
 		adicionar.setBounds(33, 542, 99, 23);
 		frame.getContentPane().add(adicionar);
@@ -556,10 +637,10 @@ public class Ven_Datos_Afiliados {
 		frame.getContentPane().add(frmtdtxtfldLugarCauce);
 		frame.getContentPane().add(lblNewJgoodiesLabel);
 		frame.getContentPane().add(frmtdtxtfldId);
-		frame.getContentPane().add(textField_3);
-		frame.getContentPane().add(textField);
-		frame.getContentPane().add(textField_1);
-		frame.getContentPane().add(textField_2);
+		frame.getContentPane().add(pais);
+		frame.getContentPane().add(id_cod);
+		frame.getContentPane().add(nombre);
+		frame.getContentPane().add(pat);
 		frame.getContentPane().add(txtpnEstadoDeRegistro);
 		frame.getContentPane().add(frmtdtxtfldEstado);
 		frame.getContentPane().add(comboBox);
@@ -570,10 +651,10 @@ public class Ven_Datos_Afiliados {
 		frmtdtxtfldApellidoMat.setBounds(10, 164, 90, 20);
 		frame.getContentPane().add(frmtdtxtfldApellidoMat);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(110, 164, 115, 20);
-		frame.getContentPane().add(textField_4);
+		mat = new JTextField();
+		mat.setColumns(10);
+		mat.setBounds(110, 164, 115, 20);
+		frame.getContentPane().add(mat);
 		
 		JFormattedTextField frmtdtxtfldIncricionAo = new JFormattedTextField();
 		frmtdtxtfldIncricionAo.setText("Incricion A\u00F1o:");
@@ -581,10 +662,10 @@ public class Ven_Datos_Afiliados {
 		frmtdtxtfldIncricionAo.setBounds(10, 195, 90, 20);
 		frame.getContentPane().add(frmtdtxtfldIncricionAo);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(110, 195, 115, 20);
-		frame.getContentPane().add(textField_5);
+		anio = new JTextField();
+		anio.setColumns(10);
+		anio.setBounds(110, 195, 115, 20);
+		frame.getContentPane().add(anio);
 		
 		JFormattedTextField frmtdtxtfldIncricionMes = new JFormattedTextField();
 		frmtdtxtfldIncricionMes.setText("Incricion Mes:");
@@ -592,10 +673,10 @@ public class Ven_Datos_Afiliados {
 		frmtdtxtfldIncricionMes.setBounds(10, 226, 90, 20);
 		frame.getContentPane().add(frmtdtxtfldIncricionMes);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(110, 226, 115, 20);
-		frame.getContentPane().add(textField_6);
+		mes = new JTextField();
+		mes.setColumns(10);
+		mes.setBounds(110, 226, 115, 20);
+		frame.getContentPane().add(mes);
 		
 		JFormattedTextField frmtdtxtfldIncricionDa = new JFormattedTextField();
 		frmtdtxtfldIncricionDa.setText("Incricion D\u00EDa");
@@ -603,10 +684,10 @@ public class Ven_Datos_Afiliados {
 		frmtdtxtfldIncricionDa.setBounds(10, 257, 90, 20);
 		frame.getContentPane().add(frmtdtxtfldIncricionDa);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(110, 257, 115, 20);
-		frame.getContentPane().add(textField_7);
+		dia = new JTextField();
+		dia.setColumns(10);
+		dia.setBounds(110, 257, 115, 20);
+		frame.getContentPane().add(dia);
 		
 		JFormattedTextField frmtdtxtfldEstadoCivil = new JFormattedTextField();
 		frmtdtxtfldEstadoCivil.setText("Estado civil Cod:");
@@ -614,10 +695,10 @@ public class Ven_Datos_Afiliados {
 		frmtdtxtfldEstadoCivil.setBounds(261, 102, 90, 20);
 		frame.getContentPane().add(frmtdtxtfldEstadoCivil);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(361, 102, 102, 20);
-		frame.getContentPane().add(textField_8);
+		est_civil = new JTextField();
+		est_civil.setColumns(10);
+		est_civil.setBounds(361, 102, 102, 20);
+		frame.getContentPane().add(est_civil);
 		
 		JFormattedTextField frmtdtxtfldLicenciaCod = new JFormattedTextField();
 		frmtdtxtfldLicenciaCod.setText("Licencia Cod:");
@@ -625,11 +706,10 @@ public class Ven_Datos_Afiliados {
 		frmtdtxtfldLicenciaCod.setBounds(261, 133, 90, 20);
 		frame.getContentPane().add(frmtdtxtfldLicenciaCod);
 		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		textField_9.setBounds(361, 133, 102, 20);
-		frame.getContentPane().add(textField_9);
-		eventos();
+		lic_cod = new JTextField();
+		lic_cod.setColumns(10);
+		lic_cod.setBounds(361, 133, 102, 20);
+		frame.getContentPane().add(lic_cod);
 		
 	}
 }

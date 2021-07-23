@@ -222,7 +222,9 @@ public class Ven_Datos_Peces {
 			public void actionPerformed(ActionEvent e) {
 				
 				String id = textField.getText();
-				String des = textField_1.getText();
+				String nombre = textField_1.getText();
+				String pueCap = textField_2.getText();
+				String des = textField_3.getText();
 				int estado = (Integer)comboBox.getSelectedIndex();
 				String auxS;
 				
@@ -236,13 +238,6 @@ public class Ven_Datos_Peces {
 				}
 				
 				
-				if(id != "" && des !="" ) {
-					Object [] row = {
-							id, des, auxS,
-						};
-						dtm.addRow(row);
-				}
-				
 				
 				try {
 					
@@ -253,10 +248,14 @@ public class Ven_Datos_Peces {
 					String query = " insert into " + Tname + columns + "\n values (?, ?, ?, ?, ?)";
 					PreparedStatement preparedStmt = con.prepareStatement(query);
 					preparedStmt.setInt 	(1, Integer.parseInt(id));
-				    preparedStmt.setString 	(2, des);
-				    preparedStmt.setString 	(3, auxS);
-				      
+				    preparedStmt.setString 	(2, nombre);
+				    preparedStmt.setInt 	(3, Integer.parseInt(pueCap));
+				    preparedStmt.setString 	(4, des);
+				    preparedStmt.setString 	(5, auxS);
 					preparedStmt.execute();
+					
+					Object [] row = {id, nombre, pueCap,des,auxS};
+					dtm.addRow(row);
 					
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, f + "Error en al añadir");
@@ -277,11 +276,16 @@ public class Ven_Datos_Peces {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
-					String des = tableData.getValueAt(fila, 1).toString();
-					String estado = tableData.getValueAt(fila, 2).toString();
+					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());
+					String nombre = tableData.getValueAt(fila, 1).toString();
+					int pueCap = Integer.parseInt(tableData.getValueAt(fila, 2).toString());
+					String des = tableData.getValueAt(fila, 3).toString();
+					String estado = tableData.getValueAt(fila, 4).toString();
+					
 					textField.setText(String.valueOf(id));
-					textField_1.setText(des);
+					textField_1.setText(nombre);
+					textField_2.setText("" + pueCap);
+					textField_3.setText(des);
 					comboBox.getModel().setSelectedItem(estado);
 					
 				} else {
@@ -299,21 +303,25 @@ public class Ven_Datos_Peces {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					
-					int id = Integer.parseInt(textField.getText());		
-					String des = textField_1.getText();
+					int id = Integer.parseInt(textField.getText());
+					String nombre = textField_1.getText();
+					int  pueCap = Integer.parseInt(textField_2.getText());
+					String des = textField_3.getText();
 					String estado = comboBox.getSelectedItem().toString();
+					
 					
 					
 					try {
 						
 						ArrayList <String> k = getColumns(Tname,con);
-						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?, " + k.get(3) + " = ?, " + k.get(4) + " = ?   where " + k.get(0) + " = ?";
 						
 						PreparedStatement preparedStmt = con.prepareStatement(query);
-						preparedStmt.setString	(1, des);
-						preparedStmt.setString	(2, estado);
-						preparedStmt.setInt		(3, id);
+						preparedStmt.setString	(1, nombre);
+						preparedStmt.setInt		(2, pueCap);
+						preparedStmt.setString	(3, des);
+						preparedStmt.setString	(4, estado);
+						preparedStmt.setInt		(5, id);
 						preparedStmt.execute();
 						
 					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
@@ -321,8 +329,10 @@ public class Ven_Datos_Peces {
 						//poniendo los datos, actualizados
 					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
 					    model.setValueAt(String.valueOf(id), fila, 0);
-					    model.setValueAt(des, fila, 1);
-					    model.setValueAt(estado, fila, 2);
+					    model.setValueAt(nombre, fila, 1);
+					    model.setValueAt(pueCap, fila, 2);
+					    model.setValueAt(des, fila, 3);
+					    model.setValueAt(estado, fila, 4);
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
@@ -352,12 +362,12 @@ public class Ven_Datos_Peces {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "E";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(4) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("E", fila, 2);
+						tableData.setValueAt("E", fila, 4);
 					    System.out.println("Se Borro Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -393,12 +403,12 @@ public class Ven_Datos_Peces {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "I";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(4) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("I", fila, 2);
+						tableData.setValueAt("I", fila, 4);
 					    System.out.println("Se Inactivo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -425,12 +435,12 @@ public class Ven_Datos_Peces {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "A";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(4) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("A", fila, 2);
+						tableData.setValueAt("A", fila, 4);
 					    System.out.println("Se Activo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -507,8 +517,10 @@ public class Ven_Datos_Peces {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"A", "I", "*"}));
 		
 		JScrollPane scrollPane = new JScrollPane(tableData);
+		scrollPane.setBounds(0, 0, 514, 200);
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 193, 514, 200);
+		panel.setLayout(null);
 		panel.add(scrollPane);
 		
 		JFormattedTextField frmtdtxtfldComunidad = new JFormattedTextField();
