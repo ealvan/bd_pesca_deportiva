@@ -66,7 +66,7 @@ public class Ven_Datos_Afiliados_Lic {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Ven_Datos_Afiliados_Lic window = new Ven_Datos_Afiliados_Lic("a");
+					Ven_Datos_Afiliados_Lic window = new Ven_Datos_Afiliados_Lic("afi_lic");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,10 +84,10 @@ public class Ven_Datos_Afiliados_Lic {
 	
 	public void create_Tablas(String tabla) {
 		dtm = new DefaultTableModel();
-		dtm.addColumn(getColumns(tabla,con).get(0));
-		dtm.addColumn(getColumns(tabla,con).get(1));
-		dtm.addColumn(getColumns(tabla,con).get(2));
-		
+		ArrayList<String> cols = getColumns(tabla,con);
+		for(String col: cols) {
+			dtm.addColumn(col);
+		}
 		String[] datos = new String [10];
 		
 		try {
@@ -98,6 +98,8 @@ public class Ven_Datos_Afiliados_Lic {
 				datos[0] = rs.getString(1);
 				datos[1] = rs.getString(2);
 				datos[2] = rs.getString(3);
+				datos[3] = rs.getString(4);
+				
 				dtm.addRow(datos);
 			}
 			tableData = new JTable(dtm);
@@ -218,40 +220,23 @@ public class Ven_Datos_Afiliados_Lic {
 		adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String id = textField.getText();
-				String des = textField_1.getText();
-				int estado = (Integer)comboBox.getSelectedIndex();
-				String auxS;
-				
-				
-				if (estado == 0) {
-					auxS = "A";
-				} else if (estado == 1) {
-					auxS = "I";
-				} else {
-					auxS = "E";
-				}
-				
-				
-				if(id != "" && des !="" ) {
-					Object [] row = {
-							id, des, auxS,
-						};
-						dtm.addRow(row);
-				}
-				
-				
+				int id = Integer.parseInt(textField.getText());
+				int  pecod = Integer.parseInt(textField_1.getText());
+				int  liccod = Integer.parseInt(textField_1.getText());
+				String estado = comboBox.getSelectedItem().toString();
+				 
 				try {
 					
 					ArrayList <String> k = getColumns(Tname,con);
 					
-					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2) + ")";
+					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2)+")";
 					
-					String query = " insert into " + Tname + columns + "\n values (?, ?, ?)";
+					String query = " insert into " + Tname + columns + " values (?, ?, ?)";
 					PreparedStatement preparedStmt = con.prepareStatement(query);
-					preparedStmt.setInt 	(1, Integer.parseInt(id));
-				    preparedStmt.setString 	(2, des);
-				    preparedStmt.setString 	(3, auxS);
+					preparedStmt.setInt 	(1, id);
+				    preparedStmt.setInt 	(2, pecod);
+				    preparedStmt.setInt 	(3, liccod);
+				   // preparedStmt.setString 	(4, estado);
 				      
 					preparedStmt.execute();
 					
@@ -274,11 +259,14 @@ public class Ven_Datos_Afiliados_Lic {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
-					String des = tableData.getValueAt(fila, 1).toString();
-					String estado = tableData.getValueAt(fila, 2).toString();
-					textField.setText(String.valueOf(id));
-					textField_1.setText(des);
+					String id = tableData.getValueAt(fila, 0).toString();
+					String aficod = tableData.getValueAt(fila, 1).toString();
+					String liccod = tableData.getValueAt(fila, 2).toString();
+					String estado =  tableData.getValueAt(fila, 3).toString();
+					
+					textField.setText(id);
+					textField_1.setText(aficod);
+					textField_2.setText(liccod);
 					comboBox.getModel().setSelectedItem(estado);
 					
 				} else {
@@ -296,21 +284,30 @@ public class Ven_Datos_Afiliados_Lic {
 				if (fila != -1) {
 					//Codigo Funcional
 					
+					int id = Integer.parseInt(textField.getText());
+					int aficod = Integer.parseInt(textField_1.getText());
+					int liccod = Integer.parseInt(textField_2.getText());		
 					
-					int id = Integer.parseInt(textField.getText());		
-					String des = textField_1.getText();
-					String estado = comboBox.getSelectedItem().toString();
-					
+					String estado = (String) comboBox.getModel().getSelectedItem();
+					if(estado == "0") {
+						estado = "A";
+					}else if(estado == "1") {
+						estado = "I";
+					}else {
+						estado = "E";
+					}
 					
 					try {
 						
 						ArrayList <String> k = getColumns(Tname,con);
-						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ? ,"+k.get(3)+ " = ?"+"  where " + k.get(0) + " = ?";
 						
 						PreparedStatement preparedStmt = con.prepareStatement(query);
-						preparedStmt.setString	(1, des);
-						preparedStmt.setString	(2, estado);
-						preparedStmt.setInt		(3, id);
+						preparedStmt.setInt	(1, aficod);
+						preparedStmt.setInt	(2, liccod);
+						preparedStmt.setString	(3, estado);
+						
+						preparedStmt.setInt		(4, id);
 						preparedStmt.execute();
 						
 					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
@@ -318,8 +315,11 @@ public class Ven_Datos_Afiliados_Lic {
 						//poniendo los datos, actualizados
 					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
 					    model.setValueAt(String.valueOf(id), fila, 0);
-					    model.setValueAt(des, fila, 1);
-					    model.setValueAt(estado, fila, 2);
+					    model.setValueAt(String.valueOf(aficod), fila, 1);
+					    model.setValueAt(String.valueOf(liccod), fila, 2);
+					    model.setValueAt(estado, fila, 3);
+//					    model.setValueAt(des, fila, 1);
+//					    model.setValueAt(estado, fila, 2);
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
@@ -349,12 +349,12 @@ public class Ven_Datos_Afiliados_Lic {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "E";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(3) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("E", fila, 2);
+						tableData.setValueAt("E", fila, 3);
 					    System.out.println("Se Borro Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -390,12 +390,12 @@ public class Ven_Datos_Afiliados_Lic {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "I";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(3) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("I", fila, 2);
+						tableData.setValueAt("I", fila, 3);
 					    System.out.println("Se Inactivo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -422,12 +422,12 @@ public class Ven_Datos_Afiliados_Lic {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "A";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(3) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("A", fila, 2);
+						tableData.setValueAt("A", fila, 3);
 					    System.out.println("Se Activo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -545,7 +545,7 @@ public class Ven_Datos_Afiliados_Lic {
 		frame.getContentPane().add(txtpnEstadoDeRegistro);
 		frame.getContentPane().add(frmtdtxtfldEstado);
 		frame.getContentPane().add(comboBox);
-		eventos();
+		 
 		
 	}
 }
