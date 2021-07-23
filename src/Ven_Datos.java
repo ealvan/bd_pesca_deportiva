@@ -31,10 +31,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.FlowLayout;
-import java.awt.ScrollPane;
 
-public class Ven_Referenciales {
+public class Ven_Datos {
 
 	public JFrame frame;
 	private JTextField textField;
@@ -65,7 +63,7 @@ public class Ven_Referenciales {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Ven_Referenciales window = new Ven_Referenciales("a");
+					Ven_Datos window = new Ven_Datos("a");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -133,11 +131,16 @@ public class Ven_Referenciales {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM " + tabla + ";");
 			
+			int i = 0;
 			while(rs.next()) {
+				if (i == 1) {
+					break;
+				}
 				datos[0] = rs.getString(1);
 				datos[1] = rs.getString(2);
 				datos[2] = rs.getString(3);
 				dtm.addRow(datos);
+				i++;
 			}
 			tableData = new JTable(dtm);
 			
@@ -149,7 +152,7 @@ public class Ven_Referenciales {
 	}
 	
 	
-	public Ven_Referenciales(String type) {
+	public Ven_Datos(String type) {
 		Tname = type;
 		create_Tablas(type);
 		initialize();
@@ -160,11 +163,10 @@ public class Ven_Referenciales {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 500, 520);
+		frame.setBounds(100, 100, 500, 621);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JTextPane txtpnEstadoDeRegistro = new JTextPane();
-		txtpnEstadoDeRegistro.setBounds(115, 33, 125, 20);
 		
 		SimpleAttributeSet attributeSet = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(attributeSet, "arial");
@@ -181,66 +183,127 @@ public class Ven_Referenciales {
 		txtpnEstadoDeRegistro.setText(Tname);
 		
 		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Tabla: ");
-		lblNewJgoodiesLabel.setBounds(33, 33, 46, 20);
-		
-		JFormattedTextField frmtdtxtfldId = new JFormattedTextField();
-		frmtdtxtfldId.setBounds(64, 59, 33, 20);
-		frmtdtxtfldId.setText("Id:");
-		
-		JFormattedTextField frmtdtxtfldDescripcion = new JFormattedTextField();
-		frmtdtxtfldDescripcion.setBounds(24, 85, 73, 20);
-		frmtdtxtfldDescripcion.setText("Descripcion:");
-		
-		JFormattedTextField frmtdtxtfldEstado = new JFormattedTextField();
-		frmtdtxtfldEstado.setBounds(43, 111, 54, 20);
-		frmtdtxtfldEstado.setText("Estado:");
-		
-		textField = new JTextField();
-		textField.setBounds(133, 59, 42, 20);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(133, 85, 260, 20);
-		textField_1.setColumns(10);
-		
-		comboBox = new JComboBox();
-		comboBox.setBounds(133, 111, 43, 20);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"A", "I", "*"}));
 		
 		JScrollPane scrollPane = new JScrollPane(tableData);
-		scrollPane.setBounds(0, 0, 462, 165);
 		JPanel panel = new JPanel();
-		panel.setLayout(null);
 		panel.add(scrollPane);
 		
-		panel.setBounds(10, 142, 464, 165);
-		frame.getContentPane().setLayout(null);
-		frame.getContentPane().add(frmtdtxtfldEstado);
-		frame.getContentPane().add(frmtdtxtfldId);
-		frame.getContentPane().add(frmtdtxtfldDescripcion);
-		frame.getContentPane().add(lblNewJgoodiesLabel);
-		frame.getContentPane().add(txtpnEstadoDeRegistro);
-		frame.getContentPane().add(textField);
-		frame.getContentPane().add(textField_1);
-		frame.getContentPane().add(comboBox);
-		adicionar.setBounds(22, 354, 87, 23);
-		frame.getContentPane().add(adicionar);
-		inactivar.setBounds(22, 411, 75, 23);
-		frame.getContentPane().add(inactivar);
-		reactivar.setBounds(127, 411, 79, 23);
-		frame.getContentPane().add(reactivar);
-		modificar.setBounds(127, 354, 75, 23);
-		frame.getContentPane().add(modificar);
-		actualizar.setBounds(224, 411, 79, 23);
-		frame.getContentPane().add(actualizar);
-		eliminar.setBounds(234, 354, 69, 23);
-		frame.getContentPane().add(eliminar);
-		cancelar.setBounds(342, 354, 75, 23);
-		frame.getContentPane().add(cancelar);
-		salir.setBounds(342, 411, 53, 23);
-		frame.getContentPane().add(salir);
-		frame.getContentPane().add(panel);
+		JPanel panel_1 = new JPanel();
+
 		
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(21)
+							.addComponent(lblNewJgoodiesLabel, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(txtpnEstadoDeRegistro, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(40)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(adicionar, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+								.addComponent(inactivar))
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(reactivar)
+								.addComponent(modificar))
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(actualizar)
+								.addComponent(eliminar))
+							.addGap(39)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(cancelar)
+								.addComponent(salir)))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(13)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblNewJgoodiesLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtpnEstadoDeRegistro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 161, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(adicionar)
+						.addComponent(modificar)
+						.addComponent(eliminar)
+						.addComponent(cancelar))
+					.addGap(34)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(reactivar)
+						.addComponent(actualizar)
+						.addComponent(salir)
+						.addComponent(inactivar))
+					.addGap(34))
+		);
+		
+		JFormattedTextField frmtdtxtfldId = new JFormattedTextField();
+		frmtdtxtfldId.setText("Id:");
+		
+		textField = new JTextField();
+		textField.setColumns(20);
+		
+		JFormattedTextField frmtdtxtfldDescripcion = new JFormattedTextField();
+		frmtdtxtfldDescripcion.setText("Descripcion:");
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		
+		JFormattedTextField frmtdtxtfldEstado = new JFormattedTextField();
+		frmtdtxtfldEstado.setText("Estado:");
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"A", "I", "*"}));
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addComponent(frmtdtxtfldEstado, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+						.addComponent(frmtdtxtfldDescripcion, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+						.addComponent(frmtdtxtfldId, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(212, Short.MAX_VALUE))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(frmtdtxtfldId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(frmtdtxtfldDescripcion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(frmtdtxtfldEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(88, Short.MAX_VALUE))
+		);
+		panel_1.setLayout(gl_panel_1);
+		frame.getContentPane().setLayout(groupLayout);
 		eventos();
 	}
 	
@@ -349,6 +412,14 @@ public class Ven_Referenciales {
 				}
 				
 				
+				if(id != "" && des !="" ) {
+					Object [] row = {
+							id, des, auxS,
+						};
+						dtm.addRow(row);
+				}
+				
+				
 				try {
 					
 					ArrayList <String> k = getColumns(Tname,con);
@@ -360,15 +431,8 @@ public class Ven_Referenciales {
 					preparedStmt.setInt 	(1, Integer.parseInt(id));
 				    preparedStmt.setString 	(2, des);
 				    preparedStmt.setString 	(3, auxS);
+				      
 					preparedStmt.execute();
-					
-					if(id != "" && des !="" ) {
-						Object [] row = {
-								id, des, auxS,
-							};
-							dtm.addRow(row);
-					}
-					
 					
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, f + "Error en al añadir");

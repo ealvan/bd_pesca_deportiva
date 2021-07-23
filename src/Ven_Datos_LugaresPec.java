@@ -31,10 +31,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.FlowLayout;
-import java.awt.ScrollPane;
+import javax.swing.SwingConstants;
 
-public class Ven_Referenciales {
+public class Ven_Datos_LugaresPec {
 
 	public JFrame frame;
 	private JTextField textField;
@@ -57,6 +56,7 @@ public class Ven_Referenciales {
 	private Connection con = conection.getConn();
 	private JTable tableData;
 	private DefaultTableModel dtm;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -65,7 +65,7 @@ public class Ven_Referenciales {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Ven_Referenciales window = new Ven_Referenciales("a");
+					Ven_Datos_LugaresPec window = new Ven_Datos_LugaresPec("a");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -74,46 +74,6 @@ public class Ven_Referenciales {
 		});
 	}
 	
-	public void mostrarDatosClientes() {
-		dtm = new DefaultTableModel();
-		dtm.addColumn("ID");
-		dtm.addColumn("Nombre");
-		dtm.addColumn("Año");
-		dtm.addColumn("Mes");
-		dtm.addColumn("Dia");
-		dtm.addColumn("Precio");
-		dtm.addColumn("Participantes");
-		dtm.addColumn("Caracter");
-		dtm.addColumn("Lugar");
-		dtm.addColumn("Estado");
-		tableData = new JTable(dtm);
-		
-		String[] datos = new String [10];
-		
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM eventos;");
-			while(rs.next()) {
-				datos[0] = rs.getString(1);
-				datos[1] = rs.getString(2);
-				datos[2] = rs.getString(3);
-				datos[3] = rs.getString(4);
-				datos[4] = rs.getString(5);
-				datos[5] = rs.getString(6);
-				datos[6] = rs.getString(7);
-				datos[7] = rs.getString(8);
-				datos[8] = rs.getString(9);
-				datos[9] = rs.getString(10);
-				dtm.addRow(datos);
-			}
-			tableData = new JTable(dtm);
-			
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e + "Error en la consulta");
-			// TODO: handle exception
-		}
-		
-	}
 	
 
 	/**
@@ -149,7 +109,7 @@ public class Ven_Referenciales {
 	}
 	
 	
-	public Ven_Referenciales(String type) {
+	public Ven_Datos_LugaresPec(String type) {
 		Tname = type;
 		create_Tablas(type);
 		initialize();
@@ -160,87 +120,10 @@ public class Ven_Referenciales {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 500, 520);
+		frame.setBounds(100, 100, 550, 552);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JTextPane txtpnEstadoDeRegistro = new JTextPane();
-		txtpnEstadoDeRegistro.setBounds(115, 33, 125, 20);
-		
-		SimpleAttributeSet attributeSet = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(attributeSet, "arial");
-        StyleConstants.setFontSize(attributeSet, 16);
-        StyleConstants.setLineSpacing(attributeSet, -0.2f);
-        StyleConstants.setBold(attributeSet, true);
-        StyleConstants.setItalic(attributeSet, true);
-        StyleConstants.setBackground(attributeSet, Color.pink);
-        StyleConstants.setForeground(attributeSet, Color.black);
-        StyleConstants.setLeftIndent(attributeSet, 4);
-
-	    txtpnEstadoDeRegistro.setCharacterAttributes(attributeSet, true);
-		
-		txtpnEstadoDeRegistro.setText(Tname);
-		
-		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Tabla: ");
-		lblNewJgoodiesLabel.setBounds(33, 33, 46, 20);
-		
-		JFormattedTextField frmtdtxtfldId = new JFormattedTextField();
-		frmtdtxtfldId.setBounds(64, 59, 33, 20);
-		frmtdtxtfldId.setText("Id:");
-		
-		JFormattedTextField frmtdtxtfldDescripcion = new JFormattedTextField();
-		frmtdtxtfldDescripcion.setBounds(24, 85, 73, 20);
-		frmtdtxtfldDescripcion.setText("Descripcion:");
-		
-		JFormattedTextField frmtdtxtfldEstado = new JFormattedTextField();
-		frmtdtxtfldEstado.setBounds(43, 111, 54, 20);
-		frmtdtxtfldEstado.setText("Estado:");
-		
-		textField = new JTextField();
-		textField.setBounds(133, 59, 42, 20);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(133, 85, 260, 20);
-		textField_1.setColumns(10);
-		
-		comboBox = new JComboBox();
-		comboBox.setBounds(133, 111, 43, 20);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"A", "I", "*"}));
-		
-		JScrollPane scrollPane = new JScrollPane(tableData);
-		scrollPane.setBounds(0, 0, 462, 165);
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.add(scrollPane);
-		
-		panel.setBounds(10, 142, 464, 165);
-		frame.getContentPane().setLayout(null);
-		frame.getContentPane().add(frmtdtxtfldEstado);
-		frame.getContentPane().add(frmtdtxtfldId);
-		frame.getContentPane().add(frmtdtxtfldDescripcion);
-		frame.getContentPane().add(lblNewJgoodiesLabel);
-		frame.getContentPane().add(txtpnEstadoDeRegistro);
-		frame.getContentPane().add(textField);
-		frame.getContentPane().add(textField_1);
-		frame.getContentPane().add(comboBox);
-		adicionar.setBounds(22, 354, 87, 23);
-		frame.getContentPane().add(adicionar);
-		inactivar.setBounds(22, 411, 75, 23);
-		frame.getContentPane().add(inactivar);
-		reactivar.setBounds(127, 411, 79, 23);
-		frame.getContentPane().add(reactivar);
-		modificar.setBounds(127, 354, 75, 23);
-		frame.getContentPane().add(modificar);
-		actualizar.setBounds(224, 411, 79, 23);
-		frame.getContentPane().add(actualizar);
-		eliminar.setBounds(234, 354, 69, 23);
-		frame.getContentPane().add(eliminar);
-		cancelar.setBounds(342, 354, 75, 23);
-		frame.getContentPane().add(cancelar);
-		salir.setBounds(342, 411, 53, 23);
-		frame.getContentPane().add(salir);
-		frame.getContentPane().add(panel);
-		
+		create_dates("a");
 		eventos();
 	}
 	
@@ -349,6 +232,14 @@ public class Ven_Referenciales {
 				}
 				
 				
+				if(id != "" && des !="" ) {
+					Object [] row = {
+							id, des, auxS,
+						};
+						dtm.addRow(row);
+				}
+				
+				
 				try {
 					
 					ArrayList <String> k = getColumns(Tname,con);
@@ -360,15 +251,8 @@ public class Ven_Referenciales {
 					preparedStmt.setInt 	(1, Integer.parseInt(id));
 				    preparedStmt.setString 	(2, des);
 				    preparedStmt.setString 	(3, auxS);
+				      
 					preparedStmt.execute();
-					
-					if(id != "" && des !="" ) {
-						Object [] row = {
-								id, des, auxS,
-							};
-							dtm.addRow(row);
-					}
-					
 					
 				} catch (Exception f) {
 					JOptionPane.showMessageDialog(null, f + "Error en al añadir");
@@ -568,5 +452,98 @@ public class Ven_Referenciales {
 				System.out.println("Salir");
 			}
 		});
+	}
+	
+	void create_dates(String a) {
+		JTextPane txtpnEstadoDeRegistro = new JTextPane();
+		txtpnEstadoDeRegistro.setBounds(55, 30, 125, 20);
+		
+		SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(attributeSet, "arial");
+        StyleConstants.setFontSize(attributeSet, 16);
+        StyleConstants.setLineSpacing(attributeSet, -0.2f);
+        StyleConstants.setBold(attributeSet, true);
+        StyleConstants.setItalic(attributeSet, true);
+        StyleConstants.setBackground(attributeSet, Color.pink);
+        StyleConstants.setForeground(attributeSet, Color.black);
+        StyleConstants.setLeftIndent(attributeSet, 4);
+
+	    txtpnEstadoDeRegistro.setCharacterAttributes(attributeSet, true);
+		
+		txtpnEstadoDeRegistro.setText(Tname);
+		
+		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Tabla: ");
+		lblNewJgoodiesLabel.setBounds(10, 30, 46, 14);
+		
+		JFormattedTextField frmtdtxtfldId = new JFormattedTextField();
+		frmtdtxtfldId.setBounds(10, 71, 90, 20);
+		frmtdtxtfldId.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldId.setText("Id:");
+		
+		JFormattedTextField frmtdtxtfldDescripcion = new JFormattedTextField();
+		frmtdtxtfldDescripcion.setBounds(10, 102, 90, 20);
+		frmtdtxtfldDescripcion.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldDescripcion.setText("C\u00F3digo del Pez:");
+		
+		JFormattedTextField frmtdtxtfldEstado = new JFormattedTextField();
+		frmtdtxtfldEstado.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldEstado.setBounds(209, 102, 99, 20);
+		frmtdtxtfldEstado.setText("Estado:");
+		
+		textField = new JTextField();
+		textField.setBounds(110, 71, 56, 20);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(110, 102, 56, 20);
+		textField_1.setColumns(10);
+		
+		comboBox = new JComboBox();
+		comboBox.setBounds(342, 102, 43, 20);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"A", "I", "*"}));
+		
+		JScrollPane scrollPane = new JScrollPane(tableData);
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 193, 514, 200);
+		panel.add(scrollPane);
+		
+		JFormattedTextField frmtdtxtfldLugarCauce = new JFormattedTextField();
+		frmtdtxtfldLugarCauce.setBounds(209, 71, 99, 20);
+		frmtdtxtfldLugarCauce.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldLugarCauce.setText("Codigo del Lugar:");
+		frame.getContentPane().setLayout(null);
+		adicionar.setBounds(24, 428, 99, 23);
+		frame.getContentPane().add(adicionar);
+		inactivar.setBounds(24, 462, 99, 23);
+		frame.getContentPane().add(inactivar);
+		reactivar.setBounds(157, 462, 99, 23);
+		frame.getContentPane().add(reactivar);
+		modificar.setBounds(157, 428, 99, 23);
+		frame.getContentPane().add(modificar);
+		actualizar.setBounds(282, 462, 99, 23);
+		frame.getContentPane().add(actualizar);
+		eliminar.setBounds(282, 428, 99, 23);
+		frame.getContentPane().add(eliminar);
+		cancelar.setBounds(405, 428, 89, 23);
+		frame.getContentPane().add(cancelar);
+		salir.setBounds(405, 462, 89, 23);
+		frame.getContentPane().add(salir);
+		frame.getContentPane().add(panel);
+		frame.getContentPane().add(frmtdtxtfldDescripcion);
+		frame.getContentPane().add(frmtdtxtfldLugarCauce);
+		frame.getContentPane().add(lblNewJgoodiesLabel);
+		frame.getContentPane().add(frmtdtxtfldId);
+		frame.getContentPane().add(textField);
+		frame.getContentPane().add(textField_1);
+		frame.getContentPane().add(txtpnEstadoDeRegistro);
+		frame.getContentPane().add(frmtdtxtfldEstado);
+		frame.getContentPane().add(comboBox);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(342, 71, 56, 20);
+		frame.getContentPane().add(textField_2);
+		eventos();
+		
 	}
 }

@@ -31,13 +31,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.FlowLayout;
-import java.awt.ScrollPane;
+import javax.swing.SwingConstants;
 
-public class Ven_Referenciales {
+public class Ven_Datos_Lugares {
 
 	public JFrame frame;
-	private JTextField textField;
 	private JTextField textField_1;
 	private String Tname;
 	private JComboBox comboBox;
@@ -57,6 +55,12 @@ public class Ven_Referenciales {
 	private Connection con = conection.getConn();
 	private JTable tableData;
 	private DefaultTableModel dtm;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textoChidori;
 
 	/**
 	 * Launch the application.
@@ -65,7 +69,7 @@ public class Ven_Referenciales {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Ven_Referenciales window = new Ven_Referenciales("a");
+					Ven_Datos_Lugares window = new Ven_Datos_Lugares("a");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -74,46 +78,6 @@ public class Ven_Referenciales {
 		});
 	}
 	
-	public void mostrarDatosClientes() {
-		dtm = new DefaultTableModel();
-		dtm.addColumn("ID");
-		dtm.addColumn("Nombre");
-		dtm.addColumn("Año");
-		dtm.addColumn("Mes");
-		dtm.addColumn("Dia");
-		dtm.addColumn("Precio");
-		dtm.addColumn("Participantes");
-		dtm.addColumn("Caracter");
-		dtm.addColumn("Lugar");
-		dtm.addColumn("Estado");
-		tableData = new JTable(dtm);
-		
-		String[] datos = new String [10];
-		
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM eventos;");
-			while(rs.next()) {
-				datos[0] = rs.getString(1);
-				datos[1] = rs.getString(2);
-				datos[2] = rs.getString(3);
-				datos[3] = rs.getString(4);
-				datos[4] = rs.getString(5);
-				datos[5] = rs.getString(6);
-				datos[6] = rs.getString(7);
-				datos[7] = rs.getString(8);
-				datos[8] = rs.getString(9);
-				datos[9] = rs.getString(10);
-				dtm.addRow(datos);
-			}
-			tableData = new JTable(dtm);
-			
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, e + "Error en la consulta");
-			// TODO: handle exception
-		}
-		
-	}
 	
 
 	/**
@@ -126,6 +90,12 @@ public class Ven_Referenciales {
 		dtm.addColumn(getColumns(tabla,con).get(0));
 		dtm.addColumn(getColumns(tabla,con).get(1));
 		dtm.addColumn(getColumns(tabla,con).get(2));
+		dtm.addColumn(getColumns(tabla,con).get(3));
+		dtm.addColumn(getColumns(tabla,con).get(4));
+		dtm.addColumn(getColumns(tabla,con).get(5));
+		dtm.addColumn(getColumns(tabla,con).get(6));
+		dtm.addColumn(getColumns(tabla,con).get(7));
+		
 		
 		String[] datos = new String [10];
 		
@@ -137,6 +107,11 @@ public class Ven_Referenciales {
 				datos[0] = rs.getString(1);
 				datos[1] = rs.getString(2);
 				datos[2] = rs.getString(3);
+				datos[3] = rs.getString(4);
+				datos[4] = rs.getString(5);
+				datos[5] = rs.getString(6);
+				datos[6] = rs.getString(7);
+				datos[7] = rs.getString(8);
 				dtm.addRow(datos);
 			}
 			tableData = new JTable(dtm);
@@ -149,7 +124,7 @@ public class Ven_Referenciales {
 	}
 	
 	
-	public Ven_Referenciales(String type) {
+	public Ven_Datos_Lugares(String type) {
 		Tname = type;
 		create_Tablas(type);
 		initialize();
@@ -160,88 +135,10 @@ public class Ven_Referenciales {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 500, 520);
+		frame.setBounds(100, 100, 550, 552);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JTextPane txtpnEstadoDeRegistro = new JTextPane();
-		txtpnEstadoDeRegistro.setBounds(115, 33, 125, 20);
-		
-		SimpleAttributeSet attributeSet = new SimpleAttributeSet();
-		StyleConstants.setFontFamily(attributeSet, "arial");
-        StyleConstants.setFontSize(attributeSet, 16);
-        StyleConstants.setLineSpacing(attributeSet, -0.2f);
-        StyleConstants.setBold(attributeSet, true);
-        StyleConstants.setItalic(attributeSet, true);
-        StyleConstants.setBackground(attributeSet, Color.pink);
-        StyleConstants.setForeground(attributeSet, Color.black);
-        StyleConstants.setLeftIndent(attributeSet, 4);
-
-	    txtpnEstadoDeRegistro.setCharacterAttributes(attributeSet, true);
-		
-		txtpnEstadoDeRegistro.setText(Tname);
-		
-		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Tabla: ");
-		lblNewJgoodiesLabel.setBounds(33, 33, 46, 20);
-		
-		JFormattedTextField frmtdtxtfldId = new JFormattedTextField();
-		frmtdtxtfldId.setBounds(64, 59, 33, 20);
-		frmtdtxtfldId.setText("Id:");
-		
-		JFormattedTextField frmtdtxtfldDescripcion = new JFormattedTextField();
-		frmtdtxtfldDescripcion.setBounds(24, 85, 73, 20);
-		frmtdtxtfldDescripcion.setText("Descripcion:");
-		
-		JFormattedTextField frmtdtxtfldEstado = new JFormattedTextField();
-		frmtdtxtfldEstado.setBounds(43, 111, 54, 20);
-		frmtdtxtfldEstado.setText("Estado:");
-		
-		textField = new JTextField();
-		textField.setBounds(133, 59, 42, 20);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(133, 85, 260, 20);
-		textField_1.setColumns(10);
-		
-		comboBox = new JComboBox();
-		comboBox.setBounds(133, 111, 43, 20);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"A", "I", "*"}));
-		
-		JScrollPane scrollPane = new JScrollPane(tableData);
-		scrollPane.setBounds(0, 0, 462, 165);
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.add(scrollPane);
-		
-		panel.setBounds(10, 142, 464, 165);
-		frame.getContentPane().setLayout(null);
-		frame.getContentPane().add(frmtdtxtfldEstado);
-		frame.getContentPane().add(frmtdtxtfldId);
-		frame.getContentPane().add(frmtdtxtfldDescripcion);
-		frame.getContentPane().add(lblNewJgoodiesLabel);
-		frame.getContentPane().add(txtpnEstadoDeRegistro);
-		frame.getContentPane().add(textField);
-		frame.getContentPane().add(textField_1);
-		frame.getContentPane().add(comboBox);
-		adicionar.setBounds(22, 354, 87, 23);
-		frame.getContentPane().add(adicionar);
-		inactivar.setBounds(22, 411, 75, 23);
-		frame.getContentPane().add(inactivar);
-		reactivar.setBounds(127, 411, 79, 23);
-		frame.getContentPane().add(reactivar);
-		modificar.setBounds(127, 354, 75, 23);
-		frame.getContentPane().add(modificar);
-		actualizar.setBounds(224, 411, 79, 23);
-		frame.getContentPane().add(actualizar);
-		eliminar.setBounds(234, 354, 69, 23);
-		frame.getContentPane().add(eliminar);
-		cancelar.setBounds(342, 354, 75, 23);
-		frame.getContentPane().add(cancelar);
-		salir.setBounds(342, 411, 53, 23);
-		frame.getContentPane().add(salir);
-		frame.getContentPane().add(panel);
-		
-		eventos();
+		create_dates("a");
 	}
 	
 	static ArrayList<String> getColumns(String tableName, Connection con) {
@@ -334,8 +231,14 @@ public class Ven_Referenciales {
 		adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String id = textField.getText();
-				String des = textField_1.getText();
+				String id = textoChidori.getText();
+				String nombre = textField_1.getText();
+				String comunidad = textField_2.getText();
+				String cauce = textField_3.getText();
+				String lugar_tip = textField_4.getText();
+				String acotado =  textField_5.getText();
+				String lugar_veda = textField_6.getText();
+				
 				int estado = (Integer)comboBox.getSelectedIndex();
 				String auxS;
 				
@@ -348,60 +251,75 @@ public class Ven_Referenciales {
 					auxS = "E";
 				}
 				
+				System.out.println("" + Integer.parseInt(id));
+				System.out.println(Integer.parseInt(cauce));
+				System.out.println(Integer.parseInt(lugar_tip));
+				System.out.println(Integer.parseInt(acotado));
+				System.out.println(Integer.parseInt(lugar_veda));
+
 				
 				try {
 					
 					ArrayList <String> k = getColumns(Tname,con);
 					
-					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2) + ")";
+					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2) + ", " + k.get(3) + ", " + k.get(4) + ", " + k.get(5) + ", " + k.get(6) + ", " + k.get(7) + ")";
 					
-					String query = " insert into " + Tname + columns + "\n values (?, ?, ?)";
+					String query = " insert into " + Tname + columns + "\n values (?, ?, ?, ?, ?, ?, ?, ?)";
+					
 					PreparedStatement preparedStmt = con.prepareStatement(query);
 					preparedStmt.setInt 	(1, Integer.parseInt(id));
-				    preparedStmt.setString 	(2, des);
-				    preparedStmt.setString 	(3, auxS);
+				    preparedStmt.setString 	(2, nombre);
+				    preparedStmt.setString 	(3, comunidad);
+				    preparedStmt.setInt 	(4, Integer.parseInt(cauce));
+				    preparedStmt.setInt 	(5, Integer.parseInt(lugar_tip));
+				    preparedStmt.setInt 	(6, Integer.parseInt(acotado));
+				    preparedStmt.setInt 	(7, Integer.parseInt(lugar_veda));
+				    preparedStmt.setString 	(8, auxS);
+				      
 					preparedStmt.execute();
 					
-					if(id != "" && des !="" ) {
-						Object [] row = {
-								id, des, auxS,
-							};
-							dtm.addRow(row);
-					}
+					
+					Object [] row = {id, nombre, comunidad,cauce,lugar_tip,acotado,lugar_veda,auxS};
+					dtm.addRow(row);
+					
+					
 					
 					
 				} catch (Exception f) {
-					JOptionPane.showMessageDialog(null, f + "Error en al añadir");
+					JOptionPane.showMessageDialog(null, f + " Error en al añadir");
 					// TODO: handle exception
 				}
 				
 				
-				textField.setText("");
-				textField_1.setText("");
+				
 				System.out.println("Adicionar");
 				
 			}
 		});
-		tableData.getSelectionModel().addListSelectionListener((ListSelectionListener) new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	        	int fila = tableData.getSelectedRow();
-				
-				if (fila != -1) {
-					//Codigo Funcional
-					
-					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
-					String des = tableData.getValueAt(fila, 1).toString();
-					String estado = tableData.getValueAt(fila, 2).toString();
-					textField.setText(String.valueOf(id));
-					textField_1.setText(des);
-					comboBox.getModel().setSelectedItem(estado);
-					
-				} else {
-					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
-				}
-	        	
-	        }
-	    });
+//		tableData.getSelectionModel().addListSelectionListener((ListSelectionListener) new ListSelectionListener(){
+//	        public void valueChanged(ListSelectionEvent event) {
+//	        	int fila = tableData.getSelectedRow();
+//				
+//				if (fila != -1) {
+//					//Codigo Funcional
+//					
+//					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
+//					String des = tableData.getValueAt(fila, 1).toString();
+//					String estado = tableData.getValueAt(fila, 2).toString();
+//					
+//					
+//					
+//					
+//					textField.setText(String.valueOf(id));
+//					textField_1.setText(des);
+//					comboBox.getModel().setSelectedItem(estado);
+//					
+//				} else {
+//					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
+//				}
+//	        	
+//	        }
+//	    });
 		modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Modificar");
@@ -412,7 +330,7 @@ public class Ven_Referenciales {
 					//Codigo Funcional
 					
 					
-					int id = Integer.parseInt(textField.getText());		
+					int id = Integer.parseInt(textoChidori.getText());		
 					String des = textField_1.getText();
 					String estado = comboBox.getSelectedItem().toString();
 					
@@ -568,5 +486,144 @@ public class Ven_Referenciales {
 				System.out.println("Salir");
 			}
 		});
+	}
+	
+	void create_dates(String a) {
+		JTextPane txtpnEstadoDeRegistro = new JTextPane();
+		txtpnEstadoDeRegistro.setBounds(55, 30, 125, 20);
+		
+		SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(attributeSet, "arial");
+        StyleConstants.setFontSize(attributeSet, 16);
+        StyleConstants.setLineSpacing(attributeSet, -0.2f);
+        StyleConstants.setBold(attributeSet, true);
+        StyleConstants.setItalic(attributeSet, true);
+        StyleConstants.setBackground(attributeSet, Color.pink);
+        StyleConstants.setForeground(attributeSet, Color.black);
+        StyleConstants.setLeftIndent(attributeSet, 4);
+
+	    txtpnEstadoDeRegistro.setCharacterAttributes(attributeSet, true);
+		
+		txtpnEstadoDeRegistro.setText(Tname);
+		
+		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Tabla: ");
+		lblNewJgoodiesLabel.setBounds(10, 30, 46, 14);
+		
+		JFormattedTextField frmtdtxtfldId = new JFormattedTextField();
+		frmtdtxtfldId.setBounds(10, 71, 90, 20);
+		frmtdtxtfldId.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldId.setText("Id:");
+		
+		JFormattedTextField frmtdtxtfldDescripcion = new JFormattedTextField();
+		frmtdtxtfldDescripcion.setBounds(10, 97, 90, 20);
+		frmtdtxtfldDescripcion.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldDescripcion.setText("Nombre:");
+		
+		JFormattedTextField frmtdtxtfldEstado = new JFormattedTextField();
+		frmtdtxtfldEstado.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldEstado.setBounds(261, 123, 87, 20);
+		frmtdtxtfldEstado.setText("Estado:");
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(110, 97, 102, 20);
+		textField_1.setColumns(10);
+		
+		comboBox = new JComboBox();
+		comboBox.setBounds(356, 123, 43, 20);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"A", "I", "*"}));
+		
+		JScrollPane scrollPane = new JScrollPane(tableData);
+		scrollPane.setBounds(0, 0, 514, 165);
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 228, 514, 165);
+		panel.setLayout(null);
+		panel.add(scrollPane);
+		
+		JFormattedTextField frmtdtxtfldComunidad = new JFormattedTextField();
+		frmtdtxtfldComunidad.setBounds(10, 123, 90, 20);
+		frmtdtxtfldComunidad.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldComunidad.setText("Comunidad:");
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(110, 123, 102, 20);
+		textField_2.setColumns(10);
+		
+		JFormattedTextField frmtdtxtfldLugarCauce = new JFormattedTextField();
+		frmtdtxtfldLugarCauce.setBounds(10, 149, 90, 20);
+		frmtdtxtfldLugarCauce.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldLugarCauce.setText("Cauce:");
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(110, 149, 102, 20);
+		textField_3.setColumns(10);
+		
+		JFormattedTextField frmtdtxtfldLugarTipo = new JFormattedTextField();
+		frmtdtxtfldLugarTipo.setBounds(10, 175, 90, 20);
+		frmtdtxtfldLugarTipo.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldLugarTipo.setText("Lugar Tipo:");
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(110, 175, 102, 20);
+		textField_4.setColumns(10);
+		
+		JFormattedTextField frmtdtxtfldLugarAcotado = new JFormattedTextField();
+		frmtdtxtfldLugarAcotado.setBounds(261, 71, 87, 20);
+		frmtdtxtfldLugarAcotado.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldLugarAcotado.setText("Acotado:");
+		frame.getContentPane().setLayout(null);
+		adicionar.setBounds(24, 428, 99, 23);
+		frame.getContentPane().add(adicionar);
+		inactivar.setBounds(24, 462, 99, 23);
+		frame.getContentPane().add(inactivar);
+		reactivar.setBounds(157, 462, 99, 23);
+		frame.getContentPane().add(reactivar);
+		modificar.setBounds(157, 428, 99, 23);
+		frame.getContentPane().add(modificar);
+		actualizar.setBounds(282, 462, 99, 23);
+		frame.getContentPane().add(actualizar);
+		eliminar.setBounds(282, 428, 99, 23);
+		frame.getContentPane().add(eliminar);
+		cancelar.setBounds(405, 428, 89, 23);
+		frame.getContentPane().add(cancelar);
+		salir.setBounds(405, 462, 89, 23);
+		frame.getContentPane().add(salir);
+		frame.getContentPane().add(panel);
+		frame.getContentPane().add(frmtdtxtfldDescripcion);
+		frame.getContentPane().add(frmtdtxtfldComunidad);
+		frame.getContentPane().add(frmtdtxtfldLugarCauce);
+		frame.getContentPane().add(frmtdtxtfldLugarTipo);
+		frame.getContentPane().add(lblNewJgoodiesLabel);
+		frame.getContentPane().add(frmtdtxtfldId);
+		frame.getContentPane().add(textField_4);
+		frame.getContentPane().add(textField_3);
+		frame.getContentPane().add(frmtdtxtfldLugarAcotado);
+		frame.getContentPane().add(textField_1);
+		frame.getContentPane().add(textField_2);
+		frame.getContentPane().add(txtpnEstadoDeRegistro);
+		frame.getContentPane().add(frmtdtxtfldEstado);
+		frame.getContentPane().add(comboBox);
+		
+		JFormattedTextField frmtdtxtfldLugarVeda = new JFormattedTextField();
+		frmtdtxtfldLugarVeda.setText("Lugar Veda:");
+		frmtdtxtfldLugarVeda.setHorizontalAlignment(SwingConstants.RIGHT);
+		frmtdtxtfldLugarVeda.setBounds(261, 97, 87, 20);
+		frame.getContentPane().add(frmtdtxtfldLugarVeda);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(356, 71, 96, 20);
+		frame.getContentPane().add(textField_5);
+		
+		textField_6 = new JTextField();
+		textField_6.setColumns(10);
+		textField_6.setBounds(356, 97, 96, 20);
+		frame.getContentPane().add(textField_6);
+		
+		textoChidori = new JTextField();
+		textoChidori.setBounds(110, 71, 86, 20);
+		frame.getContentPane().add(textoChidori);
+		textoChidori.setColumns(10);
+		eventos();
+		
 	}
 }
