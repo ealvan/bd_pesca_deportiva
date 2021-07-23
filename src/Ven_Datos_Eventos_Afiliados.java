@@ -269,6 +269,9 @@ public class Ven_Datos_Eventos_Afiliados {
 				
 				textField.setText("");
 				textField_1.setText("");
+				textField_3.setText("");
+				textField_4.setText("");
+			
 				System.out.println("Adicionar");
 				
 			}
@@ -280,19 +283,20 @@ public class Ven_Datos_Eventos_Afiliados {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					String name = tableData.getValueAt(fila, 0).toString();		
-					String apel = tableData.getValueAt(fila, 1).toString();
-					String evento = tableData.getValueAt(fila, 2).toString();
-					String precio = tableData.getValueAt(fila, 3).toString();
-					String posicion = tableData.getValueAt(fila, 4).toString();
-					String trofeo = tableData.getValueAt(fila, 5).toString();
+					String id = tableData.getValueAt(fila, 0).toString();		
+					String pos = tableData.getValueAt(fila, 1).toString();
+					String evecod = tableData.getValueAt(fila, 2).toString();
+					String aficod = tableData.getValueAt(fila, 3).toString();
+					String trocod = tableData.getValueAt(fila, 4).toString();
+					String estado = tableData.getValueAt(fila, 5).toString();
 					
-					textField.setText(name);
-					textField_1.setText(apel);
-					textField_2.setText(evento);
-					textField_3.setText(precio);
-					textField_4.setText(posicion);
+					textField.setText(id);
+					textField_1.setText(pos);
+					textField_2.setText(evecod);
+					textField_3.setText(aficod);
+					textField_4.setText(trocod);
 					//textField_5.setText(trofeo);
+					comboBox.getModel().setSelectedItem(estado);
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
@@ -308,36 +312,63 @@ public class Ven_Datos_Eventos_Afiliados {
 				
 				if (fila != -1) {
 					//Codigo Funcional
+					int id = Integer.parseInt(textField.getText());
+					int  pos = Integer.parseInt(textField_1.getText());
+					int evecod =Integer.parseInt(textField_2.getText());
+					int afiCod = Integer.parseInt(textField_3.getText());
+					int trocod = Integer.parseInt(textField_4.getText());
+					
+					int estado = (Integer)comboBox.getSelectedIndex();
+					String auxS;
+					
+//					System.out.println(id);
+//					System.out.println(pos);
+//					System.out.println(evecod);
+//					System.out.println(afiCod);
 					
 					
-					int id = Integer.parseInt(textField.getText());		
-					String des = textField_1.getText();
-					String estado = comboBox.getSelectedItem().toString();
+					if (estado == 0) {
+						auxS = "A";
+					} else if (estado == 1) {
+						auxS = "I";
+					} else {
+						auxS = "E";
+					}
 					
-//					
-//					try {
-//						
-//						ArrayList <String> k = getColumns(Tname,con);
-//						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
-//						
-//						PreparedStatement preparedStmt = con.prepareStatement(query);
-//						preparedStmt.setString	(1, des);
-//						preparedStmt.setString	(2, estado);
-//						preparedStmt.setInt		(3, id);
-//						preparedStmt.execute();
-//						
-//					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
-//					    JOptionPane.showMessageDialog(frame, "Se Modifico exitosamente!!");
-//						//poniendo los datos, actualizados
-//					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
-//					    model.setValueAt(String.valueOf(id), fila, 0);
-//					    model.setValueAt(des, fila, 1);
-//					    model.setValueAt(estado, fila, 2);
-//					}catch(Exception ha) {
-//						ha.printStackTrace();
-//					}
-//					
-//					
+					
+					try {
+						
+						ArrayList <String> k = getColumns(Tname,con);
+						String newRow = k.get(1)+" = ?, "+ k.get(2)+" = ?, "+ k.get(3)+" = ?, "+ k.get(4)+" = ?";
+						System.out.println(newRow);
+						String query = "update " + Tname + " set " + newRow +" where " + k.get(0) + " = ? ;";
+						//UPDATE `bd_pescadeportiva`.`eventos_afi` SET `EveAfiPos` = '2' WHERE (`EveAfiCod` = '8');
+						PreparedStatement preparedStmt = con.prepareStatement(query);
+						preparedStmt.setInt	(1, pos);
+						preparedStmt.setInt	(2, evecod);
+						preparedStmt.setInt	(3, afiCod);
+						preparedStmt.setInt	(4, trocod);
+						//preparedStmt.setInt	(5, estado);
+						preparedStmt.setInt	(5, id);
+						
+						preparedStmt.execute();
+						
+					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
+					    JOptionPane.showMessageDialog(frame, "Se Modifico exitosamente!!");
+						//poniendo los datos, actualizados
+					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
+					    model.setValueAt(String.valueOf(id), fila, 0);
+					    model.setValueAt(String.valueOf(pos), fila, 1);
+					    model.setValueAt(String.valueOf(evecod), fila, 2);
+					    model.setValueAt(String.valueOf(afiCod), fila, 3);
+					    model.setValueAt(String.valueOf(trocod), fila, 4);
+					    model.setValueAt(String.valueOf(estado), fila, 5);
+					    
+					}catch(Exception ha) {
+						ha.printStackTrace();
+					}
+					
+					
 				} else {
 					JOptionPane.showMessageDialog(frame, "No selecciono ningun registro :(", "Inane warning",
 						    JOptionPane.WARNING_MESSAGE);
@@ -469,7 +500,7 @@ public class Ven_Datos_Eventos_Afiliados {
 	}
 	
 	void create_dates(String a) {
-		ArrayList<String> cols = getColumns(Tname, con);
+		ArrayList<String> cols = getColumns(Tname, con);//labels sacados de la bd
 		
 		JTextPane txtpnEstadoDeRegistro = new JTextPane();
 		txtpnEstadoDeRegistro.setBounds(55, 30, 125, 20);
