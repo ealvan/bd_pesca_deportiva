@@ -72,7 +72,7 @@ public class Ven_Datos_Capturas_Eventos {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Ven_Datos_Capturas_Eventos window = new Ven_Datos_Capturas_Eventos("a");
+					Ven_Datos_Capturas_Eventos window = new Ven_Datos_Capturas_Eventos("capturas_eve");	
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -90,9 +90,11 @@ public class Ven_Datos_Capturas_Eventos {
 	
 	public void create_Tablas(String tabla) {
 		dtm = new DefaultTableModel();
-		dtm.addColumn(getColumns(tabla,con).get(0));
-		dtm.addColumn(getColumns(tabla,con).get(1));
-		dtm.addColumn(getColumns(tabla,con).get(2));
+		ArrayList<String> cols = getColumns(tabla,con);
+		for(String col: cols) {
+			dtm.addColumn(col);
+		}
+		
 		
 		String[] datos = new String [10];
 		
@@ -104,6 +106,12 @@ public class Ven_Datos_Capturas_Eventos {
 				datos[0] = rs.getString(1);
 				datos[1] = rs.getString(2);
 				datos[2] = rs.getString(3);
+				datos[3] = rs.getString(4);
+				datos[4] = rs.getString(5);
+				datos[5] = rs.getString(6);
+				datos[6] = rs.getString(7);
+				datos[7] = rs.getString(8);
+				datos[8] = rs.getString(9);
 				dtm.addRow(datos);
 			}
 			
@@ -223,41 +231,35 @@ public class Ven_Datos_Capturas_Eventos {
 		adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String id = textField.getText();
-				String des = textField_1.getText();
-				int estado = (Integer)comboBox.getSelectedIndex();
-				String auxS;
-				
-				
-				if (estado == 0) {
-					auxS = "A";
-				} else if (estado == 1) {
-					auxS = "I";
-				} else {
-					auxS = "E";
-				}
-				
-				
-				if(id != "" && des !="" ) {
-					Object [] row = {
-							id, des, auxS,
-						};
-						dtm.addRow(row);
-				}
-				
+				int id = Integer.parseInt(textField.getText());
+				int  capcod = Integer.parseInt(textField_1.getText());
+				int mes =Integer.parseInt(textField_2.getText());
+				//int afiCod = Integer.parseInt(textField_3.getText());
+				int evecod = Integer.parseInt(textField_4.getText());
+				int anio = Integer.parseInt(textField_5.getText());
+				int dia = Integer.parseInt(textField_6.getText());
+				int h = Integer.parseInt(textField_7.getText());
+				int m = Integer.parseInt(textField_8.getText());
+				String estado = (String) comboBox.getModel().getSelectedItem();
 				
 				try {
 					
 					ArrayList <String> k = getColumns(Tname,con);
 					
-					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2) + ")";
-					
-					String query = " insert into " + Tname + columns + "\n values (?, ?, ?)";
+					String newRow = k.get(0)+" = ?, "+ k.get(1)+" = ?, "+ k.get(2)+" = ?, "+ k.get(3)+" = ?, "+ k.get(4)+" = ?, "+ k.get(5)+" = ?, "+ k.get(6)+" = ?, "+ k.get(7)+" = ?, "+ k.get(8)+" = ?";
+					System.out.println(newRow);
+					String query = " insert into " + Tname +  " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					PreparedStatement preparedStmt = con.prepareStatement(query);
-					preparedStmt.setInt 	(1, Integer.parseInt(id));
-				    preparedStmt.setString 	(2, des);
-				    preparedStmt.setString 	(3, auxS);
-				      
+					preparedStmt.setInt 	(1, id);
+					preparedStmt.setInt 	(2, capcod);
+					preparedStmt.setInt 	(3, evecod);
+					preparedStmt.setInt 	(4, anio);
+					preparedStmt.setInt 	(5, mes);
+					preparedStmt.setInt 	(6, dia);
+					preparedStmt.setInt 	(7, h);
+					preparedStmt.setInt 	(8, m);
+					preparedStmt.setString 	(9, estado);
+					 
 					preparedStmt.execute();
 					
 				} catch (Exception f) {
@@ -279,13 +281,26 @@ public class Ven_Datos_Capturas_Eventos {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					int id = Integer.parseInt(tableData.getValueAt(fila, 0).toString());		
-					String des = tableData.getValueAt(fila, 1).toString();
-					String estado = tableData.getValueAt(fila, 2).toString();
-					textField.setText(String.valueOf(id));
-					textField_1.setText(des);
-					comboBox.getModel().setSelectedItem(estado);
+					String id = tableData.getValueAt(fila, 0).toString();
+					String capcod= tableData.getValueAt(fila, 1).toString();
+					String evecod = tableData.getValueAt(fila, 2).toString();
+					String anio = tableData.getValueAt(fila, 3).toString();
+					String mes = tableData.getValueAt(fila, 4).toString();
+					String dia = tableData.getValueAt(fila, 5).toString();
+					String h = tableData.getValueAt(fila, 6).toString();
+					String m = tableData.getValueAt(fila, 7).toString();
+					String estado = tableData.getValueAt(fila, 8).toString();
 					
+					textField.setText(id);
+					textField_1.setText(capcod);
+					textField_2.setText(mes);
+					//textField_3.setText(h);
+					textField_4.setText(evecod);
+					textField_5.setText(anio);
+					textField_6.setText(dia);
+					textField_7.setText(h);
+					textField_8.setText(m);
+					comboBox.getModel().setSelectedItem(estado);
 				} else {
 					JOptionPane.showMessageDialog(null, "No selecciono ninguno");
 				}
@@ -301,21 +316,34 @@ public class Ven_Datos_Capturas_Eventos {
 				if (fila != -1) {
 					//Codigo Funcional
 					
-					
-					int id = Integer.parseInt(textField.getText());		
-					String des = textField_1.getText();
-					String estado = comboBox.getSelectedItem().toString();
-					
-					
+					int id = Integer.parseInt(textField.getText());
+					int  capcod = Integer.parseInt(textField_1.getText());
+					int mes =Integer.parseInt(textField_2.getText());
+					//int afiCod = Integer.parseInt(textField_3.getText());
+					int evecod = Integer.parseInt(textField_4.getText());
+					int anio = Integer.parseInt(textField_5.getText());
+					int dia = Integer.parseInt(textField_6.getText());
+					int h = Integer.parseInt(textField_7.getText());
+					int m = Integer.parseInt(textField_8.getText());
+					String estado = (String) comboBox.getModel().getSelectedItem();
 					try {
 						
 						ArrayList <String> k = getColumns(Tname,con);
-						String query = "update " + Tname + " set " + k.get(1) + " = ?, " + k.get(2) + " = ?   where " + k.get(0) + " = ?";
-						
+						String newRow = k.get(1)+" = ?, "+ k.get(2)+" = ?, "+ k.get(3)+" = ?, "+ k.get(4)+" = ?, "+ k.get(5)+" = ?, "+ k.get(6)+" = ?, "+ k.get(7)+" = ?, "+ k.get(8)+" = ?";
+						System.out.println(newRow);
+						String query = "update " + Tname + " set " + newRow +" where " + k.get(0) + " = ? ;";
+						//UPDATE `bd_pescadeportiva`.`eventos_afi` SET `EveAfiPos` = '2' WHERE (`EveAfiCod` = '8');
 						PreparedStatement preparedStmt = con.prepareStatement(query);
-						preparedStmt.setString	(1, des);
-						preparedStmt.setString	(2, estado);
-						preparedStmt.setInt		(3, id);
+						preparedStmt.setInt	(1, capcod);
+						preparedStmt.setInt	(2, evecod);
+						preparedStmt.setInt	(3, anio);
+						preparedStmt.setInt	(4, mes);
+						preparedStmt.setInt	(5, dia);
+						preparedStmt.setInt	(6, h);
+						preparedStmt.setInt	(7, m);
+						preparedStmt.setString	(8, estado);
+						preparedStmt.setInt	(9, id);
+						
 						preparedStmt.execute();
 						
 					    System.out.println("Se Actualizo Exitosamente el Registro numero : "+ id);
@@ -323,8 +351,17 @@ public class Ven_Datos_Capturas_Eventos {
 						//poniendo los datos, actualizados
 					    DefaultTableModel model = (DefaultTableModel)tableData.getModel();
 					    model.setValueAt(String.valueOf(id), fila, 0);
-					    model.setValueAt(des, fila, 1);
-					    model.setValueAt(estado, fila, 2);
+					    model.setValueAt(String.valueOf(capcod), fila, 0);
+					    model.setValueAt(String.valueOf(evecod), fila, 0);
+					    
+					    model.setValueAt(String.valueOf(anio), fila, 0);
+					    model.setValueAt(String.valueOf(mes), fila, 0);
+					    model.setValueAt(String.valueOf(dia), fila, 0);
+					    model.setValueAt(String.valueOf(h), fila, 0);
+					    model.setValueAt(String.valueOf(m), fila, 0);
+					    model.setValueAt(String.valueOf(estado), fila, 0);
+					     
+
 					}catch(Exception ha) {
 						ha.printStackTrace();
 					}
@@ -354,12 +391,12 @@ public class Ven_Datos_Capturas_Eventos {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "E";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(8) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("E", fila, 2);
+						tableData.setValueAt("E", fila, 8);
 					    System.out.println("Se Borro Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -395,12 +432,12 @@ public class Ven_Datos_Capturas_Eventos {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "I";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(8) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("I", fila, 2);
+						tableData.setValueAt("I", fila, 8);
 					    System.out.println("Se Inactivo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -427,12 +464,12 @@ public class Ven_Datos_Capturas_Eventos {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "A";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(8) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("A", fila, 2);
+						tableData.setValueAt("A", fila, 8);
 					    System.out.println("Se Activo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -552,16 +589,16 @@ public class Ven_Datos_Capturas_Eventos {
 		textField_2.setBounds(368, 71, 56, 20);
 		frame.getContentPane().add(textField_2);
 		
-		JFormattedTextField frmtdtxtfldLugarCauce_1 = new JFormattedTextField();
-		frmtdtxtfldLugarCauce_1.setText("Codigo del Lugar:");
-		frmtdtxtfldLugarCauce_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		frmtdtxtfldLugarCauce_1.setBounds(10, 133, 112, 20);
-		frame.getContentPane().add(frmtdtxtfldLugarCauce_1);
+//		JFormattedTextField frmtdtxtfldLugarCauce_1 = new JFormattedTextField();
+//		frmtdtxtfldLugarCauce_1.setText("Codigo del Lugar:");
+//		frmtdtxtfldLugarCauce_1.setHorizontalAlignment(SwingConstants.RIGHT);
+//		frmtdtxtfldLugarCauce_1.setBounds(10, 133, 112, 20);
+//		//frame.getContentPane().add(frmtdtxtfldLugarCauce_1);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(140, 137, 56, 20);
-		frame.getContentPane().add(textField_3);
+//		textField_3 = new JTextField();
+//		textField_3.setColumns(10);
+//		textField_3.setBounds(140, 137, 56, 20);
+//		frame.getContentPane().add(textField_3);
 		
 		JFormattedTextField frmtdtxtfldLugarCauce_1_1 = new JFormattedTextField();
 		frmtdtxtfldLugarCauce_1_1.setText("Codigo del Evento:");
@@ -617,7 +654,7 @@ public class Ven_Datos_Capturas_Eventos {
 		textField_8.setColumns(10);
 		textField_8.setBounds(368, 164, 56, 20);
 		frame.getContentPane().add(textField_8);
-		eventos();
+		//eventos();
 		
 	}
 }
