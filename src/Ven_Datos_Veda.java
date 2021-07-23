@@ -232,40 +232,33 @@ public class Ven_Datos_Veda {
 		adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String id = textField.getText();
-				String des = textField_1.getText();
-				int estado = (Integer)comboBox.getSelectedIndex();
-				String auxS;
-				
-				
-				if (estado == 0) {
-					auxS = "A";
-				} else if (estado == 1) {
-					auxS = "I";
-				} else {
-					auxS = "E";
-				}
-				
-				
-				if(id != "" && des !="" ) {
-					Object [] row = {
-							id, des, auxS,
-						};
-						dtm.addRow(row);
-				}
-				
+				int id = Integer.parseInt(textField.getText());
+				int  pecod = Integer.parseInt(textField_1.getText());
+				double taMax =Double.parseDouble(textField_2.getText());
+				double taMin = Double.parseDouble(textField_3.getText());
+				double  peMax = Double.parseDouble(textField_4.getText());
+				double peMin =Double.parseDouble(textField_5.getText());
+				int numMax = Integer.parseInt(textField_6.getText());
+				int numMin = Integer.parseInt(textField_7.getText());
+				String info = textField_8.getText();
+				String estado = comboBox.getSelectedItem().toString();
 				
 				try {
 					
 					ArrayList <String> k = getColumns(Tname,con);
-					
-					String columns = "(" + k.get(0) + ", " + k.get(1) + ", " + k.get(2) + ")";
-					
-					String query = " insert into " + Tname + columns + "\n values (?, ?, ?)";
+									
+					String query = " insert into " + Tname + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					PreparedStatement preparedStmt = con.prepareStatement(query);
-					preparedStmt.setInt 	(1, Integer.parseInt(id));
-				    preparedStmt.setString 	(2, des);
-				    preparedStmt.setString 	(3, auxS);
+					preparedStmt.setInt 	(1,id );
+					preparedStmt.setInt 	(2,pecod);
+					preparedStmt.setDouble 	(3, taMax);
+					preparedStmt.setDouble 	(4, taMin);
+					preparedStmt.setDouble 	(5, peMax);
+					preparedStmt.setDouble 	(6, peMin);
+					preparedStmt.setInt 	(7, numMax);
+                    preparedStmt.setInt 	(8, numMin);
+				    preparedStmt.setString 	(9, info);
+				    preparedStmt.setString 	(10, estado);
 				      
 					preparedStmt.execute();
 					
@@ -408,13 +401,15 @@ public class Ven_Datos_Veda {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "E";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(9) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("E", fila, 2);
+						tableData.setValueAt("E", fila, 9);
 					    System.out.println("Se Borro Exitosamente el Registro numero : "+ id);
+					    JOptionPane.showMessageDialog(frame, "Se Borro Exitosamente el Registro numero : "+ id);
+						
 					}catch(Exception g) {
 						g.printStackTrace();
 					}
@@ -449,12 +444,12 @@ public class Ven_Datos_Veda {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "I";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(9) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("I", fila, 2);
+						tableData.setValueAt("I", fila, 9);
 					    System.out.println("Se Inactivo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -481,12 +476,12 @@ public class Ven_Datos_Veda {
 					try {
 						ArrayList <String> k = getColumns(Tname,con);
 						estado = "A";
-						String query = "update " + Tname + " set " + k.get(2) + " = ? where " + k.get(0) + " = ?";
+						String query = "update " + Tname + " set " + k.get(9) + " = ? where " + k.get(0) + " = ?";
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						preparedStmt.setString	(1, estado);
 						preparedStmt.setInt		(2, id);
 						preparedStmt.execute();
-						tableData.setValueAt("A", fila, 2);
+						tableData.setValueAt("A", fila, 9);
 					    System.out.println("Se Activo Exitosamente el Registro numero : "+ id);
 					}catch(Exception g) {
 						g.printStackTrace();
@@ -671,7 +666,7 @@ public class Ven_Datos_Veda {
 		textField_8.setColumns(10);
 		textField_8.setBounds(368, 164, 156, 20);
 		frame.getContentPane().add(textField_8);
-		eventos();
+		//eventos();
 		
 	}
 }

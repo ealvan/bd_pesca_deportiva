@@ -72,7 +72,7 @@ public class Ven_Datos_Capturas_Eventos {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Ven_Datos_Capturas_Eventos window = new Ven_Datos_Capturas_Eventos("a");
+					Ven_Datos_Capturas_Eventos window = new Ven_Datos_Capturas_Eventos("capturas_eve");	
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
