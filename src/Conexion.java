@@ -43,7 +43,7 @@ public class Conexion {
 	public static void main(String[] args) {
 		Conexion a = new Conexion();
 		Connection con = a.getConn();
-		getData("eventos", con);
+		getData("lugares_peces", con);
 	}
 
 	public Object[][] retrieveDataFromSelect(String table, Connection con, int cols) {
@@ -209,11 +209,13 @@ public class Conexion {
 				}
 				data.add(row);
 			}
-			/*
-			 * for(int q =0; q < data.size(); q++) { for(int u =0; u < data.get(q).length;
-			 * u++) { System.out.print(data.get(q)[u] + " " ); } System.out.println(); }
-			 * 
-			 */
+//			for(int q =0; q < data.size(); q++) { 
+//				for(int u =0; u < data.get(q).length; u++) { 
+//					System.out.print(data.get(q)[u] + " " ); 
+//				} 
+//				System.out.println(); 
+//			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
