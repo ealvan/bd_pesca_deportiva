@@ -1,1 +1,1 @@
-Ventana_Eventos.txt es el archivo funcional
+Iniciar desde Ven_Login
