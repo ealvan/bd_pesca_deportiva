@@ -224,5 +224,8 @@ public class Conexion {
 		// de indexOfBounds Exception o otro error del ArrayList
 		return data;
 	}
+	public ArrayList<String[]> getDataView(String view){
+		return this.getData(view, this.getConn());
+	}
 
 }

@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.sun.jdi.connect.spi.Connection;
 
-public class Vista_1 extends JFrame {
+public class vista_2 extends JFrame {
 //	Conexion con = new Conexion();
 //	Connection conn = con.getConn();
 	Conexion a = new Conexion();
@@ -41,7 +41,7 @@ public class Vista_1 extends JFrame {
 	final int sy = 30;
 	int sx;
 	DefaultTableModel dtm;
-	public Vista_1() {
+	public vista_2() {
 		setSize(500,  600);
 		setTitle("Vista Lugares_Peces");
 		setLocation(500, 300);
@@ -171,8 +171,8 @@ public class Vista_1 extends JFrame {
 				
 		};
 		dtm = new DefaultTableModel( );
-		ArrayList<String[] > dat = a.getDataView("lugares_peces");
-		dtm.setColumnIdentifiers(cols);
+		ArrayList<String[] > dat = a.getDataView("eventos_afiliados");
+		dtm.setColumnIdentifiers(dat.get(0));
 		
 		for(int q =1; q < dat.size(); q++) { 
 			dtm.addRow(dat.get(q));
