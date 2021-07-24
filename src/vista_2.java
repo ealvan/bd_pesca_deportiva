@@ -30,10 +30,15 @@ public class vista_2 extends JFrame {
 	JLabel c2;
 	JLabel c3;
 	JLabel c4;
+	JLabel c5;
+	JLabel c6;
+	
 	JTextField i1;
 	JTextField i2;
 	JTextField i3;
 	JTextField i4;
+	JTextField i5;
+	JTextField i6; 
 	final int x = 30;
 	final int y_init = 60;
 	final int y_inter = 20;
@@ -63,20 +68,22 @@ public class vista_2 extends JFrame {
 	}
 	public void init_labels() {
 		Font font = new Font("georgia", Font.BOLD, 20);
-		JLabel titulo = new JLabel(" Vista Lugares Peces");
+		JLabel titulo = new JLabel(" Vista Eventos Alfiliados");
 		titulo.setFont(font);
 		titulo.setForeground(Color.CYAN);
 		titulo.setOpaque(true);
 		titulo.setBackground(Color.black);
-		titulo.setBounds(125, 10, 230, 40);
+		titulo.setBounds(125, 10, 260, 40);
 		panel.add(titulo);
 		
 		
 		String[] labels = {
-				"LugNom",
-				"LugTipDes",
-				"PecNom",
-				"PecDes"
+				"Nombre",
+				"Apellido",
+				"Evento",
+				"Precio",
+				"posicion",
+				"trofeo"
 		};
 		//sistema de pposicionamiiento propio
 		//
@@ -110,15 +117,28 @@ public class vista_2 extends JFrame {
 		c4.setBackground(backLabel);
 		c4.setBounds(x, y_init + sy*3+ y_inter*3 , sx, sy);
 		
+		c5 = new JLabel(labels[4]);
+		c5.setOpaque(true);
+		c5.setBackground(backLabel);
+		c5.setBounds(x, y_init + sy*4+ y_inter*4 , sx, sy);
+		
+		c6 = new JLabel(labels[5]);
+		c6.setOpaque(true);
+		c6.setBackground(backLabel);
+		c6.setBounds(x, y_init + sy*5+ y_inter*5 , sx, sy);
+		
 		c1.setFont(font);
 		c2.setFont(font);
 		c3.setFont(font);
 		c4.setFont(font);
-		
+		c5.setFont(font);
+		c6.setFont(font);
 		panel.add(c1);
 		panel.add(c2);
 		panel.add(c3);
 		panel.add(c4);
+		panel.add(c5);
+		panel.add(c6);
 	}
 	public void init_inputs() {
 		
@@ -144,7 +164,18 @@ public class vista_2 extends JFrame {
 		i4 = new JTextField();
 		i4.setBounds(x+sx,  y_init + sy*3+ y_inter*3  ,six, siy+10);
 		panel.add(i4);
-		init_table(x+sx+10, y_init + sy*4+ y_inter*4);
+ 
+		
+		i5 = new JTextField();
+		i5.setBounds(x+sx,  y_init + sy*4+ y_inter*4  ,six, siy+10);
+		panel.add(i5);
+		
+		i6 = new JTextField();
+		i6.setBounds(x+sx,  y_init + sy*5+ y_inter*6  ,six, siy+10);
+		panel.add(i6);
+		
+		init_table(x+sx+10, y_init + sy*5+ y_inter*5);
+		
 //		i1.setEnabled(false);
 //		i2.setEnabled(false);
 //		i3.setEnabled(false);
@@ -179,8 +210,11 @@ public class vista_2 extends JFrame {
 		}
 		
 		table = new JTable(dtm);	
-		table.getTableHeader().setBounds(x-100,y,450,30);
-		table.setBounds(x-100,y+30,450,90);
+		int ytable = y + 90;
+		int highHeader = 30;
+		int ybody = ytable+highHeader;
+		table.getTableHeader().setBounds(x-100,ytable,450,highHeader);
+		table.setBounds(x-100,ybody,450,90);
 		//style of JTable
 		table.setBackground(new Color(69, 179, 157 ));
 		table.setForeground(new Color(236, 240, 241 ));
@@ -200,9 +234,9 @@ public class vista_2 extends JFrame {
 //		add(scrollPane);
 	}
 	public void init_img() {
-		ImageIcon logo = new ImageIcon("C:\\Users\\Usuario\\eclipse-workspace\\DBPescaDeportiva\\src\\logo.PNG");
+		ImageIcon logo = new ImageIcon("fishing.jpg");
 		JLabel img = new JLabel( );
-		img.setBounds(300, 60, 200, 180);
+		img.setBounds(300,110, 210, 190);
 		img.setIcon(new ImageIcon(logo.getImage().getScaledInstance(img.getWidth()
 				, img.getHeight()
 				, Image.SCALE_SMOOTH)));
@@ -216,7 +250,7 @@ public class vista_2 extends JFrame {
 	            //System.out.println(table.getValueAt(table.getSelectedRow(), 0).toString());
 	        	int row = table.getSelectedRow();
 	        	if(row != -1) {
-	        		String[] rowSelect = new String[4];
+	        		String[] rowSelect = new String[6];
 	        		for(int i =0; i < rowSelect.length; i++) {
 	        			rowSelect[i] = table.getValueAt(row, i).toString();
 	        		}
@@ -224,6 +258,8 @@ public class vista_2 extends JFrame {
 	        		i2.setText(rowSelect[1]);
 	        		i3.setText(rowSelect[2]);
 	        		i4.setText(rowSelect[3]);
+	        		i5.setText(rowSelect[4]);
+	        		i6.setText(rowSelect[5]);
 	        		
 	        		
 	        	}else {
@@ -237,7 +273,7 @@ public class vista_2 extends JFrame {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Vista_1 a = new Vista_1();
+		vista_2 a = new vista_2();
 		
 	}
 

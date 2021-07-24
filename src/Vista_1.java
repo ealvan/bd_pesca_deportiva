@@ -200,7 +200,7 @@ public class Vista_1 extends JFrame {
 //		add(scrollPane);
 	}
 	public void init_img() {
-		ImageIcon logo = new ImageIcon("C:\\Users\\Usuario\\eclipse-workspace\\DBPescaDeportiva\\src\\logo.PNG");
+		ImageIcon logo = new ImageIcon("fishing.jpg");
 		JLabel img = new JLabel( );
 		img.setBounds(300, 60, 200, 180);
 		img.setIcon(new ImageIcon(logo.getImage().getScaledInstance(img.getWidth()
