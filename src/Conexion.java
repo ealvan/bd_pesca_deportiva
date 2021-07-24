@@ -5,22 +5,22 @@ public class Conexion {
 	// Definir la ruta de la base de datos
 	// establenciendo la time zone UTC
 
-//	private String dbUrl = "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-//	// Definir el nombre de usuario de la base de datos
-//	private String dbUser = "root";
-//	// Definir la contrase�a de la base de datos
-//	private String dbPassword = "Jeampier123A";
-//	// Definir controlador de carga
-//	private String jdbcName = "com.mysql.cj.jdbc.Driver";
+	private String dbUrl = "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	// Definir el nombre de usuario de la base de datos
+	private String dbUser = "root";
+	// Definir la contrase�a de la base de datos
+	private String dbPassword = "Jeampier123A";
+	// Definir controlador de carga
+	private String jdbcName = "com.mysql.cj.jdbc.Driver";
 
-	 private String dbUrl =
-	 "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	 // Definir el nombre de usuario de la base de datos
-	 private String dbUser = "root";
-	 // Definir la contrase�a de la base de datos
-	 private String dbPassword = "edsel";
-	 // Definir controlador de carga
-	 private String jdbcName = "com.mysql.cj.jdbc.Driver";
+//	 private String dbUrl =
+//	 "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+//	 // Definir el nombre de usuario de la base de datos
+//	 private String dbUser = "root";
+//	 // Definir la contrase�a de la base de datos
+//	 private String dbPassword = "edsel";
+//	 // Definir controlador de carga
+//	 private String jdbcName = "com.mysql.cj.jdbc.Driver";
 
 	// Con�ctate a la base de datos
 	public Connection getConn() {

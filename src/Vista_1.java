@@ -42,7 +42,7 @@ public class Vista_1 extends JFrame {
 	int sx;
 	DefaultTableModel dtm;
 	public Vista_1() {
-		setSize(500,  600);
+		setSize(621,  600);
 		setTitle("Vista Lugares_Peces");
 		setLocation(500, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,7 +52,6 @@ public class Vista_1 extends JFrame {
 	}
 	public void init_components(){
 		panel = new JPanel();
-		panel.setLayout(null);
 		panel.setBackground(new Color(31, 97, 141  ));
 		//panel.setBackground(Color.BLACK); //--> no cambia a negro el panel
 		this.getContentPane().add(panel);
@@ -63,12 +62,13 @@ public class Vista_1 extends JFrame {
 	}
 	public void init_labels() {
 		Font font = new Font("georgia", Font.BOLD, 20);
+		panel.setLayout(null);
 		JLabel titulo = new JLabel(" Vista Lugares Peces");
+		titulo.setBounds(125, 10, 230, 40);
 		titulo.setFont(font);
 		titulo.setForeground(Color.CYAN);
 		titulo.setOpaque(true);
 		titulo.setBackground(Color.black);
-		titulo.setBounds(125, 10, 230, 40);
 		panel.add(titulo);
 		
 		
@@ -83,32 +83,32 @@ public class Vista_1 extends JFrame {
 		
 		sx = 90;
 		c1 = new JLabel(labels[0]);
+		c1.setBounds(40, 61, 90, 25);
 		c1.setOpaque(true);
 		c1.setBackground(backLabel);
-		c1.setBounds(x, y_init, sx, sy);
 
 		
 		sx = 120;
 		c2 = new JLabel(labels[1]);
+		c2.setBounds(10, 105, 120, 25);
 		c2.setOpaque(true);
 		c2.setBackground(backLabel);
-		c2.setBounds(x, y_init + sy+ y_inter, sx, sy);
 		
 
 		
 		sx = 100;
 		c3 = new JLabel(labels[2]);
+		c3.setBounds(30, 163, 100, 25);
 		c3.setOpaque(true);
 		c3.setBackground(backLabel);
-		c3.setBounds(x, y_init + sy*2+ y_inter*2 , sx, sy);
 		
 
 		
 		sx = 90;
 		c4 = new JLabel(labels[3]);
+		c4.setBounds(40, 210, 90, 25);
 		c4.setOpaque(true);
 		c4.setBackground(backLabel);
-		c4.setBounds(x, y_init + sy*3+ y_inter*3 , sx, sy);
 		
 		c1.setFont(font);
 		c2.setFont(font);
@@ -127,22 +127,22 @@ public class Vista_1 extends JFrame {
 		int siy = 25;
 		
 		i1 = new JTextField();
-		i1.setBounds(x+sx,y_init+4,six, siy);
+		i1.setBounds(140, 61, 90, 25);
 		panel.add(i1);
 		six = 100;
 		
 		i2 = new JTextField();
-		i2.setBounds(x+sx+30, y_init + sy+ y_inter,six, siy);
+		i2.setBounds(140, 105, 99, 25);
 		panel.add(i2);
 		six = 100;
 		
 		i3 = new JTextField();
-		i3.setBounds(x+sx+15, y_init + sy*2+ y_inter*2 ,six, siy);
+		i3.setBounds(140, 166, 100, 25);
 		panel.add(i3);
 		six = 100;
 		
 		i4 = new JTextField();
-		i4.setBounds(x+sx,  y_init + sy*3+ y_inter*3  ,six, siy+10);
+		i4.setBounds(140, 208, 100, 27);
 		panel.add(i4);
 		init_table(x+sx+10, y_init + sy*4+ y_inter*4);
 //		i1.setEnabled(false);
@@ -179,8 +179,8 @@ public class Vista_1 extends JFrame {
 		}
 		
 		table = new JTable(dtm);	
+		table.setBounds(30, 290, 450, 90);
 		table.getTableHeader().setBounds(x-100,y,450,30);
-		table.setBounds(x-100,y+30,450,90);
 		//style of JTable
 		table.setBackground(new Color(69, 179, 157 ));
 		table.setForeground(new Color(236, 240, 241 ));
