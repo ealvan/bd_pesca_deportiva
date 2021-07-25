@@ -47,7 +47,7 @@ public class vista_2 extends JFrame {
 	int sx;
 	DefaultTableModel dtm;
 	public vista_2() {
-		setSize(500,  600);
+		setSize(536,  600);
 		setTitle("Vista Lugares_Peces");
 		setLocation(500, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,7 +73,7 @@ public class vista_2 extends JFrame {
 		titulo.setForeground(Color.CYAN);
 		titulo.setOpaque(true);
 		titulo.setBackground(Color.black);
-		titulo.setBounds(125, 10, 260, 40);
+		titulo.setBounds(108, 40, 260, 40);
 		panel.add(titulo);
 		
 		
@@ -92,14 +92,14 @@ public class vista_2 extends JFrame {
 		c1 = new JLabel(labels[0]);
 		c1.setOpaque(true);
 		c1.setBackground(backLabel);
-		c1.setBounds(x, y_init, sx, sy);
+		c1.setBounds(40, 106, 90, 25);
 
 		
 		sx = 120;
 		c2 = new JLabel(labels[1]);
 		c2.setOpaque(true);
 		c2.setBackground(backLabel);
-		c2.setBounds(x, y_init + sy+ y_inter, sx, sy);
+		c2.setBounds(10, 142, 120, 25);
 		
 
 		
@@ -107,7 +107,7 @@ public class vista_2 extends JFrame {
 		c3 = new JLabel(labels[2]);
 		c3.setOpaque(true);
 		c3.setBackground(backLabel);
-		c3.setBounds(x, y_init + sy*2+ y_inter*2 , sx, sy);
+		c3.setBounds(30, 178 , sx, sy);
 		
 
 		
@@ -115,17 +115,17 @@ public class vista_2 extends JFrame {
 		c4 = new JLabel(labels[3]);
 		c4.setOpaque(true);
 		c4.setBackground(backLabel);
-		c4.setBounds(x, y_init + sy*3+ y_inter*3 , sx, sy);
+		c4.setBounds(30, 219 , 100, 30);
 		
 		c5 = new JLabel(labels[4]);
 		c5.setOpaque(true);
 		c5.setBackground(backLabel);
-		c5.setBounds(x, y_init + sy*4+ y_inter*4 , sx, sy);
+		c5.setBounds(30, 260 , 100, 30);
 		
 		c6 = new JLabel(labels[5]);
 		c6.setOpaque(true);
 		c6.setBackground(backLabel);
-		c6.setBounds(x, y_init + sy*5+ y_inter*5 , sx, sy);
+		c6.setBounds(30, 304 , 100, 30);
 		
 		c1.setFont(font);
 		c2.setFont(font);
@@ -147,31 +147,31 @@ public class vista_2 extends JFrame {
 		int siy = 25;
 		
 		i1 = new JTextField();
-		i1.setBounds(x+sx,y_init+4,six, siy);
+		i1.setBounds(145,109,six, siy);
 		panel.add(i1);
 		six = 100;
 		
 		i2 = new JTextField();
-		i2.setBounds(x+sx+30, y_init + sy+ y_inter,six, siy);
+		i2.setBounds(145, 145,six, siy);
 		panel.add(i2);
 		six = 100;
 		
 		i3 = new JTextField();
-		i3.setBounds(x+sx+15, y_init + sy*2+ y_inter*2 ,six, siy);
+		i3.setBounds(145, 184 ,six, siy);
 		panel.add(i3);
 		six = 100;
 		
 		i4 = new JTextField();
-		i4.setBounds(x+sx,  y_init + sy*3+ y_inter*3  ,six, siy+10);
+		i4.setBounds(145,  225  ,100, 25);
 		panel.add(i4);
  
 		
 		i5 = new JTextField();
-		i5.setBounds(x+sx,  y_init + sy*4+ y_inter*4  ,six, siy+10);
+		i5.setBounds(145,  261  ,100, 25);
 		panel.add(i5);
 		
 		i6 = new JTextField();
-		i6.setBounds(x+sx,  y_init + sy*5+ y_inter*6  ,six, siy+10);
+		i6.setBounds(145,  310  ,100, 25);
 		panel.add(i6);
 		
 		init_table(x+sx+10, y_init + sy*5+ y_inter*5);
