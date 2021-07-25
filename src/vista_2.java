@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
@@ -213,8 +214,8 @@ public class vista_2 extends JFrame {
 		int ytable = y + 90;
 		int highHeader = 30;
 		int ybody = ytable+highHeader;
-		table.getTableHeader().setBounds(x-100,ytable,450,highHeader);
-		table.setBounds(x-100,ybody,450,90);
+//		table.getTableHeader().setBounds(x-100,ytable,450,highHeader);
+//		table.setBounds(x-100,ybody,450,90);
 		//style of JTable
 		table.setBackground(new Color(69, 179, 157 ));
 		table.setForeground(new Color(236, 240, 241 ));
@@ -224,8 +225,13 @@ public class vista_2 extends JFrame {
 		table.getTableHeader().setForeground(new Color(46, 64, 83));
 		table.getTableHeader().setBackground(new Color(118, 215, 196 ));
 		
-		panel.add(table.getTableHeader());
-		panel.add(table);
+//		panel.add(table.getTableHeader());
+//		panel.add(table);
+		//table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+		JScrollPane paneScroll = new JScrollPane();
+		paneScroll.setViewportView(table);
+		paneScroll.setBounds(x-100,ybody,450,90); 
+		panel.add(paneScroll);
 //		JScrollPane scrollPane = new JScrollPane(table);
 //		scrollPane.setViewportView(table);
 //		//table.setFillsViewportHeight(true);
