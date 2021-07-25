@@ -179,8 +179,8 @@ public class Vista_1 extends JFrame {
 		}
 		
 		table = new JTable(dtm);	
-		table.setBounds(30, 290, 450, 90);
-		table.getTableHeader().setBounds(x-100,y,450,30);
+//		table.setBounds(30, 290, 450, 90);
+//		table.getTableHeader().setBounds(x-100,y,450,30);
 		//style of JTable
 		table.setBackground(new Color(69, 179, 157 ));
 		table.setForeground(new Color(236, 240, 241 ));
@@ -190,8 +190,13 @@ public class Vista_1 extends JFrame {
 		table.getTableHeader().setForeground(new Color(46, 64, 83));
 		table.getTableHeader().setBackground(new Color(118, 215, 196 ));
 		
-		panel.add(table.getTableHeader());
-		panel.add(table);
+		JScrollPane paneScroll = new JScrollPane();
+		paneScroll.setViewportView(table);
+		paneScroll.setBounds(30, 290, 450, 90); 
+		panel.add(paneScroll);
+		
+//		panel.add(table.getTableHeader());
+//		panel.add(table);
 //		JScrollPane scrollPane = new JScrollPane(table);
 //		scrollPane.setViewportView(table);
 //		//table.setFillsViewportHeight(true);

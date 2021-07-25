@@ -245,8 +245,9 @@ public class Vista_3 extends JFrame {
 		table.getTableHeader().setFont(new Font("georgia",Font.BOLD, 15));
 		table.getTableHeader().setForeground(new Color(46, 64, 83));
 		table.getTableHeader().setBackground(new Color(118, 215, 196 ));
-		JScrollPane paneScroll = new JScrollPane(table);
-		paneScroll.setBounds(x-100,ybody,wtable,90);
+		JScrollPane paneScroll = new JScrollPane();
+		paneScroll.setViewportView(table);
+		paneScroll.setBounds(x-100,ybody,450,90); 
 		panel.add(paneScroll);
 //		Box box = Box.createVerticalBox();
 //		box.add();
