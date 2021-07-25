@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -60,6 +61,7 @@ public class Vista_3 extends JFrame {
 	public void init_components(){
 		panel = new JPanel();
 		panel.setLayout(null);
+		
 		panel.setBackground(new Color(31, 97, 141  ));
 		//panel.setBackground(Color.BLACK); //--> no cambia a negro el panel
 		this.getContentPane().add(panel);
@@ -232,8 +234,9 @@ public class Vista_3 extends JFrame {
 		int highHeader = 30;
 		int ybody = ytable+highHeader;
 		int wtable = 660;
-		table.getTableHeader().setBounds(x-100,ytable,wtable,highHeader);
-		table.setBounds(x-100,ybody,wtable,90);
+//		table.getTableHeader().setBounds(x-100,ytable,wtable,highHeader);
+//		table.setBounds(x-100,ybody,wtable,90);
+//		table.setBounds(x-100,ybody,wtable,90);
 		//style of JTable
 		table.setBackground(new Color(69, 179, 157 ));
 		table.setForeground(new Color(236, 240, 241 ));
@@ -242,9 +245,15 @@ public class Vista_3 extends JFrame {
 		table.getTableHeader().setFont(new Font("georgia",Font.BOLD, 15));
 		table.getTableHeader().setForeground(new Color(46, 64, 83));
 		table.getTableHeader().setBackground(new Color(118, 215, 196 ));
+		JScrollPane paneScroll = new JScrollPane(table);
+		paneScroll.setBounds(x-100,ybody,wtable,90);
+		panel.add(paneScroll);
+//		Box box = Box.createVerticalBox();
+//		box.add();
 		
-		panel.add(table.getTableHeader());
-		panel.add(table);
+//		panel.add(table.getTableHeader());
+//		panel.add(table);
+
 //		JScrollPane scrollPane = new JScrollPane(table);
 //		scrollPane.setViewportView(table);
 //		//table.setFillsViewportHeight(true);
