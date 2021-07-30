@@ -163,7 +163,7 @@ public class Vista_3 extends JFrame {
 		int siy = 25;
 		
 		i1 = new JTextField();
-		i1.setBounds(x+sx+80,y_init+4,six, siy);
+		i1.setBounds(210,64,100, 25);
 		panel.add(i1);
 		six = 100;
 		
@@ -196,31 +196,11 @@ public class Vista_3 extends JFrame {
 		
 		init_table(x+sx+10, y_init + sy*6+ y_inter*6);
 		
-//		i1.setEnabled(false);
-//		i2.setEnabled(false);
-//		i3.setEnabled(false);
-//		i4.setEnabled(false);
-		
 	
 	}
 	public void init_table(int x, int y) {
-		String[] cols = {
-				"LugNom",
-				"LugTipDes",
-				"PecNom",
-				"PecDes"
-		};
+
 		
-		
-		//ArrayList<String[] > dat = Conexion.getData("lugares_peces",);
-		Object[][] data = {
-				{"Kathy", "Smith", "Snowboarding",  new Boolean(false)},
-				    {"John", "Doe","Rowing", new Boolean(true)},
-				    {"Sue", "Black","Knitting", new Boolean(false)},
-				    {"Jane", "White", "Speed reading",  new Boolean(true)},
-				    {"Joe", "Brown","Pool",new Boolean(false)}
-				
-		};
 		dtm = new DefaultTableModel( );
 		ArrayList<String[] > dat = a.getDataView("afiliados_referenciales");
 		dtm.setColumnIdentifiers(dat.get(0));
@@ -234,10 +214,6 @@ public class Vista_3 extends JFrame {
 		int highHeader = 30;
 		int ybody = ytable+highHeader;
 		int wtable = 660;
-//		table.getTableHeader().setBounds(x-100,ytable,wtable,highHeader);
-//		table.setBounds(x-100,ybody,wtable,90);
-//		table.setBounds(x-100,ybody,wtable,90);
-		//style of JTable
 		table.setBackground(new Color(69, 179, 157 ));
 		table.setForeground(new Color(236, 240, 241 ));
 		Font ft = new Font("georgia",Font.PLAIN, 14);
@@ -247,26 +223,14 @@ public class Vista_3 extends JFrame {
 		table.getTableHeader().setBackground(new Color(118, 215, 196 ));
 		JScrollPane paneScroll = new JScrollPane();
 		paneScroll.setViewportView(table);
-		paneScroll.setBounds(x-100,ybody,450,90); 
+		paneScroll.setBounds(30,417,669,105); 
 		panel.add(paneScroll);
-//		Box box = Box.createVerticalBox();
-//		box.add();
-		
-//		panel.add(table.getTableHeader());
-//		panel.add(table);
-
-//		JScrollPane scrollPane = new JScrollPane(table);
-//		scrollPane.setViewportView(table);
-//		//table.setFillsViewportHeight(true);
-//		table.setBounds(30, 300, 200, 200 );
-//		add(scrollPane);
-//		add(scrollPane);
 	}
 	public void init_img() {
 		ImageIcon logo = new ImageIcon("fishing.jpg");
 		JLabel img = new JLabel( );
 		int width = 300;
-		img.setBounds(360,110, width, width - 30);
+		img.setBounds(364,96, width, width - 30);
 		img.setIcon(new ImageIcon(logo.getImage().getScaledInstance(img.getWidth()
 				, img.getHeight()
 				, Image.SCALE_SMOOTH)));

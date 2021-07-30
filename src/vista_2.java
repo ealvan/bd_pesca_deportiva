@@ -48,7 +48,7 @@ public class vista_2 extends JFrame {
 	int sx;
 	DefaultTableModel dtm;
 	public vista_2() {
-		setSize(536,  600);
+		setSize(536,  519);
 		setTitle("Vista Lugares_Peces");
 		setLocation(500, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -194,14 +194,6 @@ public class vista_2 extends JFrame {
 		
 		
 		//ArrayList<String[] > dat = Conexion.getData("lugares_peces",);
-		Object[][] data = {
-				{"Kathy", "Smith", "Snowboarding",  new Boolean(false)},
-				    {"John", "Doe","Rowing", new Boolean(true)},
-				    {"Sue", "Black","Knitting", new Boolean(false)},
-				    {"Jane", "White", "Speed reading",  new Boolean(true)},
-				    {"Joe", "Brown","Pool",new Boolean(false)}
-				
-		};
 		dtm = new DefaultTableModel( );
 		ArrayList<String[] > dat = a.getDataView("eventos_afiliados");
 		dtm.setColumnIdentifiers(dat.get(0));
@@ -230,7 +222,7 @@ public class vista_2 extends JFrame {
 		//table.setPreferredScrollableViewportSize(new Dimension(500, 100));
 		JScrollPane paneScroll = new JScrollPane();
 		paneScroll.setViewportView(table);
-		paneScroll.setBounds(x-100,ybody,450,90); 
+		paneScroll.setBounds(31,363,450,90); 
 		panel.add(paneScroll);
 //		JScrollPane scrollPane = new JScrollPane(table);
 //		scrollPane.setViewportView(table);

@@ -160,16 +160,6 @@ public class Vista_1 extends JFrame {
 				"PecDes"
 		};
 		
-		
-		//ArrayList<String[] > dat = Conexion.getData("lugares_peces",);
-		Object[][] data = {
-				{"Kathy", "Smith", "Snowboarding",  new Boolean(false)},
-				    {"John", "Doe","Rowing", new Boolean(true)},
-				    {"Sue", "Black","Knitting", new Boolean(false)},
-				    {"Jane", "White", "Speed reading",  new Boolean(true)},
-				    {"Joe", "Brown","Pool",new Boolean(false)}
-				
-		};
 		dtm = new DefaultTableModel( );
 		ArrayList<String[] > dat = a.getDataView("lugares_peces");
 		dtm.setColumnIdentifiers(cols);
@@ -194,15 +184,7 @@ public class Vista_1 extends JFrame {
 		paneScroll.setViewportView(table);
 		paneScroll.setBounds(30, 290, 450, 90); 
 		panel.add(paneScroll);
-		
-//		panel.add(table.getTableHeader());
-//		panel.add(table);
-//		JScrollPane scrollPane = new JScrollPane(table);
-//		scrollPane.setViewportView(table);
-//		//table.setFillsViewportHeight(true);
-//		table.setBounds(30, 300, 200, 200 );
-//		add(scrollPane);
-//		add(scrollPane);
+
 	}
 	public void init_img() {
 		ImageIcon logo = new ImageIcon("fishing.jpg");
