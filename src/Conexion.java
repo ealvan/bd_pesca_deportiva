@@ -5,24 +5,23 @@ public class Conexion {
 	// Definir la ruta de la base de datos
 	// establenciendo la time zone UTC
 
-	private String dbUrl = "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	// Definir el nombre de usuario de la base de datos
-	private String dbUser = "root";
-	// Definir la contrase�a de la base de datos
-	private String dbPassword = "Jeampier123A";
-	// Definir controlador de carga
-	private String jdbcName = "com.mysql.cj.jdbc.Driver";
+//	private String dbUrl = "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+//	// Definir el nombre de usuario de la base de datos
+//	private String dbUser = "root";
+//	// Definir la contrase�a de la base de datos
+//	private String dbPassword = "Jeampier123A";
+//	// Definir controlador de carga
+//	private String jdbcName = "com.mysql.cj.jdbc.Driver";
 
-//	 private String dbUrl =
-//	 "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-//	 // Definir el nombre de usuario de la base de datos
-//	 private String dbUser = "root";
-//	 // Definir la contrase�a de la base de datos
-//	 private String dbPassword = "edsel";
-//	 // Definir controlador de carga
-//	 private String jdbcName = "com.mysql.cj.jdbc.Driver";
+	 private String dbUrl = "jdbc:mysql://localhost/bd_pescadeportiva?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	 // Definir el nombre de usuario de la base de datos
+	 private String dbUser = "root";
+	 // Definir la contrase�a de la base de datos
+	 private String dbPassword = "edsel";
+	 // Definir controlador de carga
+	 private String jdbcName = "com.mysql.cj.jdbc.Driver";
 
-	// Con�ctate a la base de datos
+	// Connectate a la base de datos
 	public Connection getConn() {
 		Connection conn = null;
 		try {
@@ -43,7 +42,9 @@ public class Conexion {
 	public static void main(String[] args) {
 		Conexion a = new Conexion();
 		Connection con = a.getConn();
-		getData("lugares_peces", con);
+//		Conexion.getColumnsProcedure("reporte_1", 1, con);
+		getProcedureOuput("reporte_1",1, con);
+		
 	}
 
 	public Object[][] retrieveDataFromSelect(String table, Connection con, int cols) {
@@ -209,12 +210,12 @@ public class Conexion {
 				}
 				data.add(row);
 			}
-//			for(int q =0; q < data.size(); q++) { 
-//				for(int u =0; u < data.get(q).length; u++) { 
-//					System.out.print(data.get(q)[u] + " " ); 
-//				} 
-//				System.out.println(); 
-//			}
+			for(int q =0; q < data.size(); q++) { 
+				for(int u =0; u < data.get(q).length; u++) { 
+					System.out.print(data.get(q)[u] + " " ); 
+				} 
+				System.out.println(); 
+			}
 			
 
 		} catch (Exception e) {
@@ -223,6 +224,91 @@ public class Conexion {
 		// retornamos, si no se logra, tendra un error
 		// de indexOfBounds Exception o otro error del ArrayList
 		return data;
+	}
+	static ArrayList<String[]> getProcedureOuput(String tempoTable,int id, Connection con) {
+				// obtener columnas
+				ArrayList<String> columns = getColumnsProcedure(tempoTable,id, con);
+				ArrayList<String[]> data = new ArrayList<String[]>();
+				// pasamos a un array statico las columnas
+				String[] cols = new String[columns.size()];
+				int p = 0;
+				for (String col : columns) {
+					cols[p] = col;
+					p++;
+				}
+				// agregamos como el head de la tabla
+				// siempre la primera fila, son las columnas!
+				data.add(cols);
+				// son las queryes que usamos
+				// qtypes, se usa para la descripcion de de la tabla
+				 
+				String qData = "SELECT * FROM " + tempoTable + ";";
+				try {
+					 
+
+					// get table of data
+					Statement stmtData = con.createStatement();
+					ResultSet resSet = stmtData.executeQuery(qData);
+					// vamos fila, por fila
+					while (resSet.next()) {
+						String[] row = new String[cols.length];
+						// ahora vamos por las celdas de la fila
+						for (int j = 1; j <= row.length; j++) {
+							row[j - 1] = resSet.getString(j);
+						}
+						data.add(row);
+					}
+//					for(int q =0; q < data.size(); q++) { 
+//						for(int u =0; u < data.get(q).length; u++) { 
+//							System.out.print(data.get(q)[u] + " " ); 
+//						} 
+//						System.out.println(); 
+//					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return data;
+	}
+	static ArrayList<String> getColumnsProcedure(String tempoTable,int report, Connection con) {
+		if (tempoTable.isEmpty() || report == 0) {
+			throw new Error("Esta vacio el campo tempoTable o  no especificaste el id");
+		}
+		 
+		String executeProcedure = "";
+		if(tempoTable == "reporte_2") {
+			 executeProcedure = "CALL create_report_2("+report+");";
+		}else if (tempoTable == "reporte_1") {
+			//CALL create_report_1(1);
+			executeProcedure = "CALL create_report_1("+report+");";
+		}else {
+			throw new Error("No tenemos este reporte!!");
+		}
+		
+		ArrayList<String> columns = new ArrayList<String>();
+
+		String query = "SHOW COLUMNS FROM " + tempoTable + ";";
+
+		try {
+			Statement stmt1 = con.createStatement();
+			stmt1.execute(executeProcedure);
+			
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				columns.add(rs.getString(1));
+			}
+			// System.out.println(columns.toString());
+//			for(String col: columns) {
+//				System.out.println(col);
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return columns;
+	}
+	public ArrayList<String[]> getReportProcedure(String tempoTable, int id){
+		return this.getProcedureOuput(tempoTable, id, this.getConn());
 	}
 	public ArrayList<String[]> getDataView(String view){
 		return this.getData(view, this.getConn());
